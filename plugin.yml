@@ -1,0 +1,115 @@
+name: Basic
+main: com.github.Sabersamus.Basic.Basic
+version: 0.6
+author: Sabersamus
+description: A simple plugin for managing your server
+commands:
+    kick:
+        description: Kicks a player
+        permission: basic.kick
+    ban:
+        description: bans a player
+        permission: basic.ban
+    unban:
+        description: unbans a player
+        permission: basic.unban
+    rban:
+        description: reloads ban configuration
+        permission: basic.rban
+    say:
+        description: Broadcasts a message to the server via <GOD>
+        permissions: basic.say
+    fakequit:
+        description: fakes a leaving message
+        permissions: basic.fakequit
+    tp:
+        description: move to another players location
+        permission: basic.tp
+    tpblock:
+        description: toggle teleporting
+        permission: basic.tpblock
+    summon:
+        description: summons a player to your location
+        permission: basic.summon
+    m:
+        description: privately message a player
+    me:
+        description: send a message to the server in third person
+    disguise:
+       description: change your name to something else, COLOR SUPPORT! 
+       permission: basic.disguise
+    ride:
+       description: ride the target player like a piggy!
+       permission: basic.ride
+    rideme:
+       description: have the target player ride you :)
+       permission: basic.ride.me
+    blind:
+        description: blind target player
+        permission: basic.blind
+    unblind:
+        description: unblind a player
+        permission: basic.unblind
+    feed:
+        description: feed yourself! you're hungry!
+        permission: basic.feed
+    kill:
+        description: Kill yourself! (or another with permissions ;) )
+        permission: basic.kill.other
+    item:
+        description: give yourself an item
+        permission: basic.item
+    creative:
+        description: change your gamemode to creative
+        permission: basic.gamemode
+    survival:
+        description: change back to the survival gamemode
+        permission: basic.gamemode
+    boom:
+        description: BOOM
+        permission: basic.boom
+    item:
+        description: give yourself an item
+        permission: basic.item
+    give:
+        description: give someone an item
+        permission: basic.give
+    clear:
+        description: clears your entire inventory
+    inv:
+        description: open a players inventory
+        permission: basic.inventory
+    spawn:
+        description: go to spawn
+    setspawn:
+        description: set spawn
+        permission: basic.setspawn
+    warp:
+        description: create a warp
+        permission: basic.warp
+    setwarp:
+        description: set a warp
+        permission: basic.setwarp
+    delwarp:
+        description: delete a warp
+        permission: basic.delwarp
+    warpsreload:
+        description: set the world spawn
+        permission: basic.reloadwarps
+    weather:
+        description: change the weather
+        permission: basic.weather
+    time:
+        description: change your time!
+        permission: basic.time.self
+    spawnmob:
+        description: spawn a mob!
+        permission: basic.spawnmob
+    who:
+        description: get online players list
+    freeze:
+        description: freeze a player
+        permission: basic.freeze
+    pos:
+        description: get your position
+        aliases: position
