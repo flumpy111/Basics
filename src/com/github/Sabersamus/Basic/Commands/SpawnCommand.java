@@ -20,7 +20,7 @@ public class SpawnCommand implements CommandExecutor{
 	if(args.length == 0){
 	Location spawn = ((Player)cs).getWorld().getSpawnLocation();
 		((Player)cs).teleport(spawn); 
-		cs.sendMessage(ChatColor.AQUA + "Weclome to spawn");
+		cs.sendMessage(ChatColor.AQUA + "Welcome to spawn");
 		return true;
 	}else{
 		cs.sendMessage(ChatColor.RED + "Invalid command use");
