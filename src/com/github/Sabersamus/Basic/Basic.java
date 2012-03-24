@@ -129,7 +129,6 @@ private void registerCommands(Basic basic) {
 				this.getCommand("freeze").setExecutor(new FreezeCommand(this));
 				this.getCommand("pos").setExecutor(new PositionCommand(this));
 				this.getCommand("wallet").setExecutor(new WalletCommand(this));
-				this.getCommand("pants").setExecutor(new WalletCommand(this));
 		}
 
 		public void loadWarps() {
