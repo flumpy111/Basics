@@ -120,13 +120,6 @@ commands:
             /<command> [check/balance] - tells you your balance
             /<command> tell - tells the whole server your balance
             /<command> pay <player> <ammount>
-    pants:
-        description: pants
-        usage: /<command>
-    balance:
-        description: blah
-        usage: |
-            /<command> (check, give) [player]
 permissions:
     basic.*:
         description: allows access to all commands

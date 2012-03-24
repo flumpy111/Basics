@@ -43,7 +43,6 @@ import com.github.Sabersamus.Basic.Commands.WarpReloadCommand;
 import com.github.Sabersamus.Basic.Commands.WeatherCommand;
 import com.github.Sabersamus.Basic.Commands.WhoCommand;
 import com.github.Sabersamus.Basic.Economy.MoneyListener;
-import com.github.Sabersamus.Basic.Economy.Wallet;
 import com.github.Sabersamus.Basic.Economy.WalletCommand;
 import com.github.Sabersamus.Basic.Listeners.BasicPlayerListener;
 import com.github.Sabersamus.Basic.Listeners.CompassListener;
@@ -131,7 +130,6 @@ private void registerCommands(Basic basic) {
 				this.getCommand("pos").setExecutor(new PositionCommand(this));
 				this.getCommand("wallet").setExecutor(new WalletCommand(this));
 				this.getCommand("pants").setExecutor(new WalletCommand(this));
-				this.getCommand("balance").setExecutor(new Wallet(this));
 		}
 
 		public void loadWarps() {

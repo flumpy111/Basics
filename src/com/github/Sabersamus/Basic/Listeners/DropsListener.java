@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.event.player.PlayerPreLoginEvent;
 
 import com.github.Sabersamus.Basic.Basic;
 
@@ -42,5 +43,10 @@ public class DropsListener implements Listener{
 			}
 			
 	}
+	}
+	
+	@EventHandler
+	public void onJoin(PlayerPreLoginEvent event){
+		
 	}
 }

@@ -15,7 +15,6 @@ public class WalletCommand implements CommandExecutor {
 		plugin = instance;
 	}
 	
-	Economy eco = new Economy(plugin);
 	
 	@Override
 	public boolean onCommand(CommandSender cs, Command cmd, String label, String[] args) {
@@ -57,14 +56,6 @@ public class WalletCommand implements CommandExecutor {
 			}
 			}
 			
-	}else if(cmd.getName().equalsIgnoreCase("pants")){
-		if(args.length == 0){
-			if(cs instanceof Player){
-				Player player = (Player)cs;
-				player.sendMessage(ChatColor.GOLD + "Your money: " + eco.getMoney(player));
-				return true;
-			}
-		}
 	}
 	return false;
 }
