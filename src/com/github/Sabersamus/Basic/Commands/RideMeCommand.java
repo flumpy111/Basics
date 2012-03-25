@@ -13,6 +13,7 @@ public class RideMeCommand implements CommandExecutor{
 	public RideMeCommand(Basic instance){
 		plugin = instance;
 	}
+	
 	@Override
 	public boolean onCommand(CommandSender cs, Command cmd, String aliases,String[] args) {
 		if(cmd.getName().equalsIgnoreCase("rideme")){
@@ -31,9 +32,6 @@ public class RideMeCommand implements CommandExecutor{
 		cs.sendMessage(ChatColor.RED + "Pick a player");
 		return true;
 	}
-	}else{
-		cs.sendMessage(ChatColor.RED + "You dont have permission");
-		return true;
 	}
 	}
 		return false;

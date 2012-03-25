@@ -1,13 +1,7 @@
 package com.github.Sabersamus.Basic;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -37,44 +31,55 @@ import com.github.Sabersamus.Basic.Commands.SummonCommand;
 import com.github.Sabersamus.Basic.Commands.SurvivalCommand;
 import com.github.Sabersamus.Basic.Commands.TeleportCommand;
 import com.github.Sabersamus.Basic.Commands.TimeCommand;
-import com.github.Sabersamus.Basic.Commands.TpToggleCommand;
+import com.github.Sabersamus.Basic.Commands.TpBlockCommand;
 import com.github.Sabersamus.Basic.Commands.WarpCommand;
 import com.github.Sabersamus.Basic.Commands.WarpReloadCommand;
 import com.github.Sabersamus.Basic.Commands.WeatherCommand;
 import com.github.Sabersamus.Basic.Commands.WhoCommand;
+import com.github.Sabersamus.Basic.Economy.Economy;
+import com.github.Sabersamus.Basic.Economy.MoneyListener;
+import com.github.Sabersamus.Basic.Economy.Wallet;
 import com.github.Sabersamus.Basic.Listeners.BasicPlayerListener;
 import com.github.Sabersamus.Basic.Listeners.CompassListener;
+import com.github.Sabersamus.Basic.Listeners.DropsListener;
 import com.github.Sabersamus.Basic.Listeners.GodModeListener;
 
 public class Basic extends JavaPlugin {
-public final Logger logger = Logger.getLogger(("Minecraft"));
+	
+public final Logger logger = Logger.getLogger("Minecraft");
 private final BasicPlayerListener playerListener = new BasicPlayerListener(this);
 private final CompassListener compassListener = new CompassListener(this);
 private final GodModeListener godModeListener = new GodModeListener(this);
-public FileConfiguration warps = null;
-public File warpsFile = null;
-public File playersFile = null;
-public FileConfiguration players = null;
+private final MoneyListener mlist = new MoneyListener(this);
+private final DropsListener drops = new DropsListener(this);
+
 
 @Override
 public void onDisable() {
-	saveWarps();
+	getWarpInfo().saveWarps();
+	getSettings().saveConf();
+	getPlayerInfo().savePlayers();
+	getBansInfo().saveBans();
 }
 
 
 @Override
 public void onEnable() {
-	loadWarps();
-	loadPlayers();
-	loadBans();
 	this.registerCommands(this);
-				PluginManager pm = getServer().getPluginManager();
+	PluginManager pm = getServer().getPluginManager();
 				pm.registerEvents(this.playerListener, this);
 				pm.registerEvents(this.compassListener, this);
 				pm.registerEvents(this.playerListener,this);
 				pm.registerEvents(this.godModeListener, this);
-
+				pm.registerEvents(this.drops, this);
+				pm.registerEvents(this.mlist, this);
+	getWarpInfo().loadWarps();
+	getPlayerInfo().loadPlayers();
+	getBansInfo().loadBans();
+	getEconomyInfo().loadMoney();
+	getSettings().loadConf();
     }
+
 private void registerCommands(Basic basic) {
 				this.getCommand("say").setExecutor(new SayCommand(this));
 				this.getCommand("kick").setExecutor(new KickCommand(this));
@@ -109,131 +114,37 @@ private void registerCommands(Basic basic) {
 				this.getCommand("time").setExecutor(new TimeCommand(this));
 				this.getCommand("weather").setExecutor(new WeatherCommand(this));
 				this.getCommand("spawnmob").setExecutor(new SpawnMob(this));
-				this.getCommand("tpblock").setExecutor(new TpToggleCommand(this));
+				this.getCommand("tpblock").setExecutor(new TpBlockCommand(this));
 				this.getCommand("who").setExecutor(new WhoCommand(this));
 				this.getCommand("freeze").setExecutor(new FreezeCommand(this));
 				this.getCommand("pos").setExecutor(new PositionCommand(this));
+				this.getCommand("wallet").setExecutor(new Wallet(this));
 		}
 
-		public void loadWarps() {
-		this.getWarps().options().copyDefaults(true);
-		saveWarps();
+		public WarpConfig getWarpInfo(){
+			return new WarpConfig(this);
+		}
+		
+		public BanConfig getBansInfo(){
+			return new BanConfig(this);
 		}
 
-		public void reloadWarps(	) {
-			if (warpsFile == null) {
-			warpsFile = new File(getDataFolder(), "warps.yml");
-			}
-			warps = YamlConfiguration.loadConfiguration(warpsFile);
-
-			InputStream defConfigStream = getResource("warps.yml");
-	if (defConfigStream != null) {
-		YamlConfiguration defConfig = YamlConfiguration
-	.loadConfiguration(defConfigStream);
-		warps.setDefaults(defConfig);
-	}
-}
-
-		public FileConfiguration getWarps() {
-			if (warps == null) {
-				reloadWarps();
-			}
-			return warps;
-	}
-
-		public void saveWarps() {
-			if (warps == null || warpsFile == null) {
-				return;
-			}
-			try {
-				warps.save(warpsFile);
-			} catch (IOException ex) {
-					Logger.getLogger(JavaPlugin.class.getName()).log(Level.SEVERE,
-							"Error saving warps to " + warpsFile, ex);
-					ex.printStackTrace();
-}
-}
-
-		public void loadPlayers() {
-				this.getPlayers().options().copyDefaults(true);
-				savePlayers();
-				}
-
-				public void reloadPlayers(	) {
-					if (playersFile == null) {
-					playersFile = new File(getDataFolder(), "teleblock.yml");
-					}
-					players = YamlConfiguration.loadConfiguration(playersFile);
-
-					InputStream defConfigStream = getResource("teleblock.yml");
-			if (defConfigStream != null) {
-				YamlConfiguration defConfig = YamlConfiguration
-			.loadConfiguration(defConfigStream);
-				players.setDefaults(defConfig);
-			}
+		public EcoConfig getSettings(){
+			return new EcoConfig(this);
 		}
+		
 
-				public FileConfiguration getPlayers() {
-					if (players == null) {
-						reloadPlayers();
-					}
-					return players;
-			}
-
-				public void savePlayers() {
-					if (players == null || playersFile == null) {
-						return;
-					}
-					try {
-						players.save(playersFile);
-					} catch (IOException ex) {
-							Logger.getLogger(JavaPlugin.class.getName()).log(Level.SEVERE,
-									"Error saving players to " + playersFile, ex);
-							ex.printStackTrace();
+		public EconomyInfo getEconomyInfo(){
+			return new EconomyInfo(this);
 		}
+		
+
+		public PlayerSettings getPlayerInfo(){
+			return new PlayerSettings(this);
 		}
-				
-				public FileConfiguration bans = null;
-				File bansFile = null;
-				
+		
 
-				public void loadBans() {
-					this.getBans().options().copyDefaults(true);
-				saveBans();
-				}
-
-				public void reloadBans(	) {
-					if (bansFile == null) {
-					bansFile = new File(getDataFolder(), "BannedPlayers.yml");
-					}
-					bans = YamlConfiguration.loadConfiguration(bansFile);
-
-					InputStream defConfigStream = getResource("BannedPlayers.yml");
-			if (defConfigStream != null) {
-				YamlConfiguration defConfig = YamlConfiguration
-			.loadConfiguration(defConfigStream);
-				bans.setDefaults(defConfig);
-			}
-			}
-
-
-				public FileConfiguration getBans() {
-					if (bans == null) {
-						reloadBans();
-					}
-					return bans;
-			}
-
-				public void saveBans() {
-					if (bans == null || bansFile == null) {
-						return;
-					}
-					try {
-						bans.save(bansFile);
-					} catch (IOException ex) {
-							Logger.getLogger(JavaPlugin.class.getName()).log(Level.SEVERE,
-									"Error saving players to " + bansFile, ex);
-							ex.printStackTrace();
-			}
-			}
+		public Economy getEconomyAPI(){
+			return new Economy(this);
+		}
 }

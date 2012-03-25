@@ -14,6 +14,7 @@ public class FreezeCommand implements CommandExecutor{
 	public FreezeCommand(Basic instance){
 		plugin = instance;
 }
+	
 	@Override
 	public boolean onCommand(CommandSender cs, Command cmd, String aliases, String[] args) {
 		if(cmd.getName().equalsIgnoreCase("freeze")){

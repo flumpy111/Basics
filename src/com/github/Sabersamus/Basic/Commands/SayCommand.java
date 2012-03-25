@@ -25,9 +25,8 @@ public class SayCommand implements CommandExecutor {
 			Player player = (Player)sender;
 			Player[] d = Bukkit.getOnlinePlayers();
 			for(Player c: d){
-			if(sender.hasPermission("basic.say.red")) {
-				
-				if(args.length != 0){//make sure they actually typed something after /say
+			if(player.hasPermission("basic.say.red")) {
+				if(args.length != 0){
 						int i=0;
 						int para=args.length; String s="";
 						while(i<para){
@@ -35,12 +34,15 @@ public class SayCommand implements CommandExecutor {
 						i++; //Bad loop I know I'm working on it
 		}
 						Bukkit.getServer().broadcastMessage(ChatColor.RED + "<GOD>" + s);
-						c.sendMessage(ChatColor.GOLD + "//Say used by " + player.getDisplayName());
+						if(c.hasPermission("bytecraft.say")){
+							c.sendMessage(ChatColor.GOLD + "//Say used by " + ((Player)sender).getDisplayName());
+							return true;
+							}
 						return true;
 						}
 
 				}else{
-					if(sender.hasPermission("basic.say.blue")) {
+					if(player.hasPermission("basic.say.blue")) {
 					if(args.length != 0){//make sure they actually typed something after /say
 						int i=0;
 						int para=args.length; String s="";
@@ -49,7 +51,10 @@ public class SayCommand implements CommandExecutor {
 						i++; //Bad loop I know I'm working on it
 		}
 						Bukkit.getServer().broadcastMessage(ChatColor.BLUE + "<GOD>" + s);
-						c.sendMessage(ChatColor.GOLD + "//Say used by " + player.getDisplayName());
+						if(c.hasPermission("bytecraft.say")){
+							c.sendMessage(ChatColor.GOLD + "//Say used by " + ((Player)sender).getDisplayName());
+							return true;
+							}
 						return true;
 						}
 
@@ -64,7 +69,10 @@ public class SayCommand implements CommandExecutor {
 							i++; //Bad loop I know I'm working on it
 			}
 							Bukkit.getServer().broadcastMessage(ChatColor.LIGHT_PURPLE + "<GOD>" + s);
-							c.sendMessage(ChatColor.GOLD + "//Say used by " + player.getDisplayName());
+							if(c.hasPermission("bytecraft.say")){
+								c.sendMessage(ChatColor.GOLD + "//Say used by " + ((Player)sender).getDisplayName());
+								return true;
+								}
 							return true;
 							}
 
@@ -78,7 +86,10 @@ public class SayCommand implements CommandExecutor {
 							i++; //Bad loop I know I'm working on it
 			}
 							Bukkit.getServer().broadcastMessage(ChatColor.GOLD + "<GOD>" + s);
-							c.sendMessage(ChatColor.GOLD + "//Say used by " + player.getDisplayName());
+							if(c.hasPermission("bytecraft.say")){
+								c.sendMessage(ChatColor.GOLD + "//Say used by " + ((Player)sender).getDisplayName());
+								return true;
+								}
 							return true;
 							}
 
@@ -93,8 +104,12 @@ public class SayCommand implements CommandExecutor {
 							s=s+" "+args[i];
 							i++; //Bad loop I know I'm working on it
 			}
+
 							Bukkit.getServer().broadcastMessage(ChatColor.BLACK + "<GOD>" + s);
-							c.sendMessage(ChatColor.GOLD + "//Say used by " + player.getDisplayName());
+							if(c.hasPermission("bytecraft.say")){
+								c.sendMessage(ChatColor.GOLD + "//Say used by " + ((Player)sender).getDisplayName());
+								return true;
+								}
 							return true;
 							}
 
@@ -109,7 +124,10 @@ public class SayCommand implements CommandExecutor {
 								i++; //Bad loop I know I'm working on it
 				}
 								Bukkit.getServer().broadcastMessage(ChatColor.DARK_BLUE + "<GOD>" + s);
-								c.sendMessage(ChatColor.GOLD + "//Say used by " + player.getDisplayName());
+								if(c.hasPermission("bytecraft.say")){
+									c.sendMessage(ChatColor.GOLD + "//Say used by " + ((Player)sender).getDisplayName());
+									return true;
+									}
 								return true;
 								}
 
@@ -124,7 +142,10 @@ public class SayCommand implements CommandExecutor {
 									i++; //Bad loop I know I'm working on it
 					}
 									Bukkit.getServer().broadcastMessage(ChatColor.DARK_GREEN + "<GOD>" + s);
-									c.sendMessage(ChatColor.GOLD + "//Say used by " + player.getDisplayName());
+									if(c.hasPermission("bytecraft.say")){
+										c.sendMessage(ChatColor.GOLD + "//Say used by " + ((Player)sender).getDisplayName());
+										return true;
+										}
 									return true;
 									}
 
@@ -138,7 +159,10 @@ public class SayCommand implements CommandExecutor {
 										i++; //Bad loop I know I'm working on it
 						}
 										Bukkit.getServer().broadcastMessage(ChatColor.DARK_AQUA + "<GOD>" + s);
-										c.sendMessage(ChatColor.GOLD + "//Say used by " + player.getDisplayName());
+										if(c.hasPermission("bytecraft.say")){
+											c.sendMessage(ChatColor.GOLD + "//Say used by " + ((Player)sender).getDisplayName());
+											return true;
+											}
 										return true;
 										}
 
@@ -153,7 +177,10 @@ public class SayCommand implements CommandExecutor {
 											i++; //Bad loop I know I'm working on it
 							}
 											Bukkit.getServer().broadcastMessage(ChatColor.DARK_RED + "<GOD>" + s);
-											c.sendMessage(ChatColor.GOLD + "//Say used by " + player.getDisplayName());
+											if(c.hasPermission("bytecraft.say")){
+												c.sendMessage(ChatColor.GOLD + "//Say used by " + ((Player)sender).getDisplayName());
+												return true;
+												}
 											return true;
 											}
 
@@ -168,7 +195,10 @@ public class SayCommand implements CommandExecutor {
 												i++; //Bad loop I know I'm working on it
 								}
 												Bukkit.getServer().broadcastMessage(ChatColor.AQUA + "<GOD>" + s);
-												c.sendMessage(ChatColor.GOLD + "//Say used by " + player.getDisplayName());
+												if(c.hasPermission("bytecraft.say")){
+													c.sendMessage(ChatColor.GOLD + "//Say used by " + ((Player)sender).getDisplayName());
+													return true;
+													}
 												return true;
 												}
 
@@ -183,7 +213,10 @@ public class SayCommand implements CommandExecutor {
 													i++; //Bad loop I know I'm working on it
 									}
 													Bukkit.getServer().broadcastMessage(ChatColor.YELLOW + "<GOD>" + s);
-													c.sendMessage(ChatColor.GOLD + "//Say used by " + player.getDisplayName());
+													if(c.hasPermission("bytecraft.say")){
+														c.sendMessage(ChatColor.GOLD + "//Say used by " + ((Player)sender).getDisplayName());
+														return true;
+														}
 													return true;
 													}
 												}else{	
@@ -196,7 +229,10 @@ public class SayCommand implements CommandExecutor {
 															i++; //Bad loop I know I'm working on it
 											}
 															Bukkit.getServer().broadcastMessage(ChatColor.MAGIC + "<GOD>" + s);
-															c.sendMessage(ChatColor.GOLD + "//Say used by " + player.getDisplayName());
+															if(c.hasPermission("bytecraft.say")){
+																c.sendMessage(ChatColor.GOLD + "//Say used by " + ((Player)sender).getDisplayName());
+																return true;
+																}
 															return true;
 															}
 														}else{	
@@ -209,7 +245,10 @@ public class SayCommand implements CommandExecutor {
 																		i++; //Bad loop I know I'm working on it
 								}
 																		Bukkit.getServer().broadcastMessage(ChatColor.DARK_PURPLE + "<GOD>" + s);
-																		c.sendMessage(ChatColor.GOLD + "//Say used by " + player.getDisplayName());
+																		if(c.hasPermission("bytecraft.say")){
+																			c.sendMessage(ChatColor.GOLD + "//Say used by " + ((Player)sender).getDisplayName());
+																			return true;
+																			}
 																		return true;
 																	}
 																

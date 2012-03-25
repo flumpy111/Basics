@@ -25,8 +25,7 @@ public class BlindCommand implements CommandExecutor {
 			Player target = Bukkit.getPlayer(args[0]);
 			if(target != null){
 			PotionEffectType effect = PotionEffectType.BLINDNESS;
-		//	target.getActivePotionEffects().add(effect.createEffect(100, 100));
-			target.addPotionEffect(effect.createEffect(1000, 100));
+			target.addPotionEffect(effect.createEffect(1500, 100));
 			player.sendMessage(ChatColor.BLUE + "You have blinded " + target.getDisplayName());
 		return true;
 			}
@@ -43,10 +42,7 @@ public class BlindCommand implements CommandExecutor {
 					if(args.length == 1){
 						Player target = Bukkit.getPlayer(args[0]);
 						if(target != null){
-					//	target.getActivePotionEffects().add(PotionEffectType.BLINDNESS.createEffect(0, 0));
-					//	target.getActivePotionEffects().add(PotionEffectType.CONFUSION.createEffect(0, 0));
 						target.removePotionEffect(PotionEffectType.BLINDNESS);
-						target.removePotionEffect(PotionEffectType.CONFUSION);
 						player.sendMessage("test");
 						return true;
 						}

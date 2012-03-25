@@ -3,6 +3,7 @@ main: com.github.Sabersamus.Basic.Basic
 version: 0.6
 author: Sabersamus
 description: A simple plugin for managing your server
+devurl: dev.bukkit.org/server-mods/basiccontrol
 commands:
     kick:
         description: Kicks a player
@@ -56,9 +57,6 @@ commands:
     kill:
         description: Kill yourself! (or another with permissions ;) )
         permission: basic.kill.other
-    item:
-        description: give yourself an item
-        permission: basic.item
     creative:
         description: change your gamemode to creative
         permission: basic.gamemode
@@ -79,13 +77,16 @@ commands:
     inv:
         description: open a players inventory
         permission: basic.inventory
+#   vanish:
+#       description: vanish from sight
+#       permission: basic.vanish
     spawn:
         description: go to spawn
     setspawn:
         description: set spawn
         permission: basic.setspawn
     warp:
-        description: create a warp
+        description: warp to a set warp
         permission: basic.warp
     setwarp:
         description: set a warp
@@ -113,3 +114,49 @@ commands:
     pos:
         description: get your position
         aliases: position
+    wallet:
+        description: access your wallet
+        aliases: money
+        usage: |
+            /<command> [check/balance] - tells you your balance
+            /<command> tell - tells the whole server your balance
+            /<command> [pay/give] <player> <amount>
+permissions:
+    basic.*:
+        description: allows access to all commands
+        default: op
+        children:
+            basic.kick: true
+            basic.ban: true
+            basic.unban: true
+            basic.rban: true
+            basic.say: true
+            basic.fakequit: true
+            basic.tp: true
+            basic.tpblock: true
+            basic.summon: true
+            basic.disguise: true
+            basic.ride: true
+            basic.ride.me: true
+            basic.blind: true
+            basic.unblind: true
+            basic.feed: true
+            basic.kill.other: true
+            basic.item: true
+            basic.give: true
+            basic.creative: true
+            basic.survival: true
+            basic.boom: true
+            basic.inventory: true
+            basic.setspawn: true
+            basic.warp: true
+            basic.setwarp: true
+            basic.delwarp: true
+            basic.reloadwarps: true
+            basic.weather: true
+            basic.time.self: true
+            basic.spawnmob: true
+            basic.freeze: true
+            basic.god: true
+            basic.compass.use: true
+            basic.vanish: true
