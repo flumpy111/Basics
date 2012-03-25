@@ -21,14 +21,16 @@ public class VanishCommand implements CommandExecutor{
 	@Override
 	public boolean onCommand(CommandSender cs, Command cmd, String aliases, String[] args) {
 		if(cmd.getName().equalsIgnoreCase("vanish")){
+			if(!(cs instanceof Player))return false;
 			if(cs.hasPermission("basic.vanish"));
-			if(args.length ==0) {
+			if(args.length == 0) {
 				Player[] p = Bukkit.getOnlinePlayers();
 				Player player = (Player)cs;
-				for(Player b: p){
+				for(Player b : p){
 					if(!b.hasPermission("basic.vanish")){
-						if(vanish.containsKey(player)){
+						if(!vanish.containsKey(player)){
 						b.hidePlayer(player);
+						vanish.put(player, this);
 						player.sendMessage(ChatColor.GREEN + "You have vanished");
 						return true;
 					}else{
@@ -37,14 +39,10 @@ public class VanishCommand implements CommandExecutor{
 						b.showPlayer(player);
 						return true;
 					}
-					}
 				}
-			/*does this actually make player vanish? or just hide from tab list? */
-		return true;
+			}
 		}
-	//TODO: Test command O.o
-		return false;
 	}
 		return false;
-}
+	}
 }

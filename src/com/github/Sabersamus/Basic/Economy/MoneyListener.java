@@ -7,6 +7,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import com.github.Sabersamus.Basic.Basic;
+import com.github.Sabersamus.Basic.EcoConfig;
+import com.github.Sabersamus.Basic.EconomyInfo;
 
 public class MoneyListener implements Listener{
 	public static Basic plugin;
@@ -17,14 +19,20 @@ public class MoneyListener implements Listener{
 	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event){
+		EconomyInfo ecoinfo = plugin.getEconomyInfo();
+		Economy eco = plugin.getEconomyAPI();
+		EcoConfig settings = plugin.getSettings();
 		Player player = event.getPlayer();
 		String name = player.getName();
-		String mname = plugin.getConf().getString("Economy.name");
-		int amount = plugin.getConf().getInt("Economy.default amount");
-		if(!plugin.getMoney().contains(name)){
-			plugin.getMoney().set(name + ".Balance", amount);
+		String mname = settings.getConf().getString("Economy.name");
+		if(settings.getConf().getBoolean("Economy.enabled") == true){
+		int amount = settings.getConf().getInt("Economy.default amount");
+		if(!ecoinfo.getMoney().contains(name)){
+			eco.setBalance(player, amount);
 			player.sendMessage(ChatColor.AQUA + "You're balance has been set to " + amount + " " + mname );
-			plugin.saveMoney();
+			}
+		}else if(settings.getConf().getBoolean("Economy.enabled") == false){
+			return;
 		}
 	}
 }

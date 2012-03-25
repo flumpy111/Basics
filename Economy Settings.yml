@@ -1,6 +1,7 @@
 # I will be adding more stuff soon, if you have any suggestions 
 # open a suggestion ticket at http://dev.bukkit.org/server-mods/basiccontrol/tickets/
 # and I will probably add it :)
-Economy:
+Economy:    
+    enabled: true
     name: Dollars
     default amount: 1000

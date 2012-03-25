@@ -7,6 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.github.Sabersamus.Basic.BanConfig;
 import com.github.Sabersamus.Basic.Basic;
 
 public class BanCommand implements CommandExecutor{
@@ -19,6 +20,7 @@ public BanCommand(Basic instance){
 @Override
 public boolean onCommand(CommandSender cs, Command cmd, String aliases, String[] args) {
 	if(cmd.getName().equalsIgnoreCase("ban")){
+		BanConfig config = plugin.getBansInfo();
 		if(cs instanceof Player){
 			Player player = (Player)cs;
 			if(player.hasPermission("basic.ban")){
@@ -27,14 +29,14 @@ public boolean onCommand(CommandSender cs, Command cmd, String aliases, String[]
 					if(target != null){
 					String name = target.getName().toLowerCase();
 						target.kickPlayer(ChatColor.RED + "You have been banned by " + player.getDisplayName());
-						plugin.getBans().set(name + ".Banned", true);
-						plugin.saveBans();
+						config.getBans().set(name + ".Banned", true);
+						config.saveBans();
 						Bukkit.getServer().broadcastMessage(target.getDisplayName() + ChatColor.RED + " has been banned by " + player.getDisplayName());
 						return true;
 					}else{
 						String banName = String.valueOf(args[0].toLowerCase());
-						plugin.getBans().set(banName + ".Banned", true);
-						plugin.saveBans();
+						config.getBans().set(banName + ".Banned", true);
+						config.saveBans();
 						player.sendMessage(ChatColor.RED + banName + " has been banned");
 						return true;
 					}
@@ -47,13 +49,13 @@ public boolean onCommand(CommandSender cs, Command cmd, String aliases, String[]
 				String name = target.getName().toLowerCase();
 				target.kickPlayer(ChatColor.RED + "You have been banned");
 				Bukkit.getServer().broadcastMessage(target.getDisplayName() + ChatColor.RED + " has been banned");
-				plugin.getBans().set(name + ".Banned", true);
-				plugin.saveBans();
+				config.getBans().set(name + ".Banned", true);
+				config.saveBans();
 				return true;
 				}else{
 					String name = String.valueOf(args[0].toLowerCase());
-					plugin.getBans().set(name + ".Banned", true);
-					plugin.saveBans();
+					config.getBans().set(name + ".Banned", true);
+					config.saveBans();
 					cs.sendMessage(name + " has been banned");
 					return true;
 				}
@@ -61,14 +63,15 @@ public boolean onCommand(CommandSender cs, Command cmd, String aliases, String[]
 		}
 	}else{
 		if(cmd.getName().equalsIgnoreCase("unban")){
+			BanConfig config = plugin.getBansInfo();
 			if(cs instanceof Player){
 				Player player = (Player)cs;
 				if(player.hasPermission("basic.unban")){
 					if(args.length == 1){
 						String name = String.valueOf(args[0].toLowerCase());
-						if(plugin.getBans().contains(name)){
-							plugin.getBans().set(name, null);
-							plugin.saveBans();
+						if(config.getBans().contains(name)){
+							config.getBans().set(name, null);
+							config.saveBans();
 							player.sendMessage(ChatColor.AQUA + name + " has been unbanned");
 							return true;
 						}else{
@@ -80,9 +83,9 @@ public boolean onCommand(CommandSender cs, Command cmd, String aliases, String[]
 			}else{
 				if(args.length == 1){
 					String name = String.valueOf(args[0].toLowerCase());
-					if(plugin.getBans().contains(name)){
-						plugin.getBans().set(name, null);
-						plugin.saveBans();
+					if(config.getBans().contains(name)){
+						config.getBans().set(name, null);
+						config.saveBans();
 						cs.sendMessage(name + " has been unbanned");
 						return true;
 					}else{
@@ -93,18 +96,19 @@ public boolean onCommand(CommandSender cs, Command cmd, String aliases, String[]
 			}
 		}else{
 			if(cmd.getName().equals("rban")){
+				BanConfig config = plugin.getBansInfo();
 				if(cs instanceof Player){
 					Player player = (Player)cs;
 					if(player.hasPermission("basic.rban")){
 						if(args.length == 0){
-							plugin.reloadBans();
+							config.reloadBans();
 							player.sendMessage(ChatColor.AQUA + "Bans configuration reloaded");
 							return true;
 						}
 					}
 				}else{
 					if(args.length == 0){
-						plugin.reloadBans();
+						config.reloadBans();
 						cs.sendMessage("Bans configuration reloaded");
 						return true;
 					}

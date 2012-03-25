@@ -8,6 +8,9 @@ import org.bukkit.entity.Player;
 
 import com.github.Sabersamus.Basic.Basic;
 
+/**
+ * @deprecated using TpBlockCommand, using the new configuration system
+ */
 public class TpToggleCommand implements CommandExecutor{
 	public static Basic plugin;
 	public TpToggleCommand(Basic instance){plugin = instance;}
@@ -21,23 +24,23 @@ public class TpToggleCommand implements CommandExecutor{
 			Player player = (Player)cs;
 			String name = player.getName();
 		if(toggle.equalsIgnoreCase("on")){
-			plugin.getPlayers().set(name +  ".TpBlock", true);
+			plugin.getPlayerInfo().getPlayers().set(name +  ".TpBlock", true);
 			player.sendMessage(ChatColor.AQUA + "Teleportation is now blocked to you");
-			plugin.savePlayers();
+			plugin.getPlayerInfo().savePlayers();
 			return true;
 		}else{
 			if(toggle.equalsIgnoreCase("off")){
-				plugin.getPlayers().set(name, null);
+				plugin.getPlayerInfo().getPlayers().set(name, null);
 				player.sendMessage(ChatColor.AQUA + "Players can now teleport to you again");
-				plugin.savePlayers();
+				plugin.getPlayerInfo().savePlayers();
 				return true;
 			}else{
 				if(toggle.equalsIgnoreCase("status")){
-				if(plugin.getPlayers().contains(name)){
+				if(plugin.getPlayerInfo().getPlayers().contains(name)){
 					player.sendMessage(ChatColor.AQUA + "Your TpBlock is on");
 					return true;
 				}else{
-					if(!plugin.getPlayers().contains(name)){
+					if(!plugin.getPlayerInfo().getPlayers().contains(name)){
 						player.sendMessage(ChatColor.AQUA +"Your TpBlock is off");
 						return true;
 					}

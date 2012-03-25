@@ -3,6 +3,7 @@ main: com.github.Sabersamus.Basic.Basic
 version: 0.6
 author: Sabersamus
 description: A simple plugin for managing your server
+devurl: dev.bukkit.org/server-mods/basiccontrol
 commands:
     kick:
         description: Kicks a player
@@ -119,7 +120,7 @@ commands:
         usage: |
             /<command> [check/balance] - tells you your balance
             /<command> tell - tells the whole server your balance
-            /<command> pay <player> <ammount>
+            /<command> [pay/give] <player> <amount>
 permissions:
     basic.*:
         description: allows access to all commands

@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.github.Sabersamus.Basic.Basic;
+import com.github.Sabersamus.Basic.PlayerSettings;
 
 public class TeleportCommand implements CommandExecutor{
 	public static Basic plugin;
@@ -18,13 +19,14 @@ public class TeleportCommand implements CommandExecutor{
 	@Override
 	public boolean onCommand(CommandSender cs, Command cmd, String aliases, String[] args) {
 		if(cmd.getName().equalsIgnoreCase("tp")){
+			PlayerSettings info = plugin.getPlayerInfo();
 		if((cs instanceof Player) && (cs.hasPermission("basic.tp"))){
 		if(args.length == 1){
 		Player target = Bukkit.getServer().getPlayer(args[0]);
 		Player player = (Player)cs;
 		if(target !=null){
 			String tname = target.getName();
-		if(!plugin.getPlayers().contains(tname)){
+		if(!info.getPlayers().contains(tname)){
 			player.teleport(target.getLocation());
 			cs.sendMessage(ChatColor.AQUA + "Teleporting to " + target.getDisplayName());
 			target.sendMessage(player.getDisplayName() + ChatColor.AQUA + " has teleported to you");
@@ -36,7 +38,7 @@ public class TeleportCommand implements CommandExecutor{
 			return true;
 			}else{
 				player.teleport(target.getLocation());
-				cs.sendMessage(ChatColor.AQUA + "Teleporting to " + target.getDisplayName());
+				player.sendMessage(ChatColor.AQUA + "Teleporting to " + target.getDisplayName());
 				target.sendMessage(player.getDisplayName() + ChatColor.AQUA + " has teleported to you");
 				return true;
 			}

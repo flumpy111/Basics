@@ -9,6 +9,9 @@ import org.bukkit.entity.Player;
 
 import com.github.Sabersamus.Basic.Basic;
 
+/**
+ * @deprecated - using Wallet now, uses the new Economy Api
+ */
 public class WalletCommand implements CommandExecutor {
 	public static Basic plugin;
 	public WalletCommand(Basic instance){
@@ -20,21 +23,22 @@ public class WalletCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender cs, Command cmd, String label, String[] args) {
 		if(cmd.getName().equalsIgnoreCase("wallet")){
 			if(!(cs instanceof Player))return false;
-			String mname = plugin.getConf().getString("Economy.name");
+			String mname = plugin.getSettings().getConf().getString("Economy.name");
 			Player player = (Player)cs;
 			String name = player.getName();
 			if(args.length == 0){
-				int amount = plugin.getMoney().getInt(name + ".Balance");
+				int amount = plugin.getEconomyInfo().getMoney().getInt(name + ".Balance");
 				player.sendMessage(ChatColor.DARK_AQUA + "You have " + amount  + " " + mname);
+				return true;
 			}else{
 			String usage = String.valueOf(args[0]);
 			if(args.length == 1){
 				if(usage.equalsIgnoreCase("check") || usage.equalsIgnoreCase("balance")){
-					int amount = plugin.getMoney().getInt(name + ".Balance");
+					int amount = plugin.getEconomyInfo().getMoney().getInt(name + ".Balance");
 					player.sendMessage(ChatColor.DARK_AQUA + "You have " + amount  + " " + mname);
 					return true;
 				}else if(usage.equalsIgnoreCase("tell")){
-					int amount = plugin.getMoney().getInt(name + ".Balance");
+					int amount = plugin.getEconomyInfo().getMoney().getInt(name + ".Balance");
 					Bukkit.broadcastMessage(player.getDisplayName() + ChatColor.AQUA + " has " + amount + " " + mname);
 					return true;
 				}
@@ -43,11 +47,11 @@ public class WalletCommand implements CommandExecutor {
 					Player target = Bukkit.getPlayer(args[1]);
 					int amount = Integer.parseInt(args[2]);
 					if(target != null){
-						plugin.getMoney().set(name + ".Balance", plugin.getMoney().getInt(name + ".Balance") - amount);
-						plugin.getMoney().set(target.getName() + ".Balance", plugin.getMoney().getInt(target.getName() + ".Balance") + amount);
+						plugin.getEconomyInfo().getMoney().set(name + ".Balance", plugin.getEconomyInfo().getMoney().getInt(name + ".Balance") - amount);
+						plugin.getEconomyInfo().getMoney().set(target.getName() + ".Balance", plugin.getEconomyInfo().getMoney().getInt(target.getName() + ".Balance") + amount);
 						player.sendMessage(ChatColor.AQUA + "You gave " + target.getDisplayName() + " " + amount + " " + mname);
 						target.sendMessage(player.getDisplayName() + ChatColor.AQUA + " gave you " + amount + " " + mname);
-						plugin.saveMoney();
+						plugin.getEconomyInfo().saveMoney();
 						return true;
 					}
 				}
