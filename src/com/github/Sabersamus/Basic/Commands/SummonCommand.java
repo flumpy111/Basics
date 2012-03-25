@@ -19,12 +19,13 @@ public class SummonCommand implements CommandExecutor{
 	public boolean onCommand(CommandSender cs, Command cmd, String aliases, String[] args) {
 		if(cmd.getName().equalsIgnoreCase("summon")){;
 		if((cs instanceof Player) && (cs.hasPermission("basic.summon"))){
+			Player player = (Player)cs;
 		if(args.length == 1){
 			Player target = Bukkit.getServer().getPlayer(args[0]);
 		if(target != null){
 			cs.sendMessage(ChatColor.BLUE + "Summoning " + target.getDisplayName());
-			target.teleport(((Player) cs).getLocation());
-			target.sendMessage(((Player) cs).getDisplayName() + ChatColor.BLUE + " summoned you");
+			target.teleport(player.getLocation());
+			target.sendMessage(player.getDisplayName() + ChatColor.BLUE + " summoned you");
 			return true;
 		}else{
 			cs.sendMessage(ChatColor.RED + "Invalid player");

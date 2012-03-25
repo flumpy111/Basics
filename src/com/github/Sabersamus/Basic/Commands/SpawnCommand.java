@@ -19,26 +19,27 @@ public class SpawnCommand implements CommandExecutor{
 	if(cmd.getName().equalsIgnoreCase("spawn") && (cs instanceof Player)){
 	if(args.length == 0){
 	Location spawn = ((Player)cs).getWorld().getSpawnLocation();
-		((Player)cs).teleport(spawn); 
-		cs.sendMessage(ChatColor.AQUA + "Weclome to spawn");
+		spawn.setX(spawn.getX() + 0.5);
+		spawn.setZ(spawn.getZ() + 0.5);
+		Player player = (Player)cs;
+		player.teleport(spawn); 
+		player.sendMessage(ChatColor.AQUA + "Welome to spawn");
 		return true;
-	}else{
-		cs.sendMessage(ChatColor.RED + "Invalid command use");
-		return true;
-			}
-		}if(cmd.getName().equalsIgnoreCase("setspawn") && (cs instanceof Player)){
+	}
+	}else if(cmd.getName().equalsIgnoreCase("setspawn") && (cs instanceof Player)){
+			Player player = (Player)cs;
 			if(args.length == 0){
-				if(cs.hasPermission("basic.setpawn")){
-				double x = ((Player)cs).getLocation().getX();
-				double y = ((Player)cs).getLocation().getY();
-				double z = ((Player)cs).getLocation().getZ();
-				((Player)cs).getWorld().setSpawnLocation((int)x, (int)y, (int)z);
-				cs.sendMessage(ChatColor.AQUA + "Spawn set!");
+				if(player.hasPermission("basic.setpawn")){
+				int x = (int)(player.getLocation().getX());
+				int y = (int)(player.getLocation().getY());
+				int z = (int) (player.getLocation().getZ());
+				player.getWorld().setSpawnLocation(x, y, z);
+				player.sendMessage(ChatColor.AQUA + "Spawn is set!");
 				return true;
 	}
 		return false;
 	}else{
-		return false;
+		return true;
 	}
 }
 		return false;

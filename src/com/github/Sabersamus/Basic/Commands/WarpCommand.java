@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.github.Sabersamus.Basic.Basic;
+import com.github.Sabersamus.Basic.WarpConfig;
 
 public class WarpCommand implements CommandExecutor
 {
@@ -19,40 +20,34 @@ public class WarpCommand implements CommandExecutor
 	}
 	
 	
-    @Override
-    public boolean onCommand(final CommandSender sender, Command cmd, String label, final String[] args) {
-    if (!(sender instanceof Player) || args.length == 0)
-    return false;
-    if (cmd.getName().equalsIgnoreCase("warp")){
-    	if (sender.hasPermission("basic.warp")){
-    String warp = args[0];
-    if (plugin.warps.contains(warp)){
-    sender.sendMessage(ChatColor.DARK_GREEN + "warping to " + warp + "!");
-     
-    plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-    Player player = (Player) sender;
-    String Warps = args[0] + ".";
-     
-    @Override
-    public void run() {
-    String world = plugin.warps.getString(Warps + "world");
-    int x = plugin.warps.getInt(Warps + "x");
-    int y = plugin.warps.getInt(Warps + "y");
-    int z = plugin.warps.getInt(Warps + "z");
-    float yaw = plugin.warps.getInt(Warps + "yaw");
-    float pitch = plugin.warps.getInt(Warps+ "pitch");
-    Location warpto = new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
-    player.getWorld().loadChunk(x, y);
-    player.teleport(warpto);
-    }
-    }, 0L);
-    }else{
-    sender.sendMessage(ChatColor.RED + "Warp does not exist!");
-    return true;
-    }
-    return true;
-    }
-    }
-    return false;
-    }
+	
+	@Override
+	public boolean onCommand(CommandSender cs, Command cmd, String label, String[] args) {
+		if(cmd.getName().equalsIgnoreCase("warp")){
+			WarpConfig warps = plugin.getWarpInfo();
+			if(!(cs instanceof Player))return false;
+			Player player = (Player)cs;
+			if(player.hasPermission("basic.warp")){
+			if(args.length == 1){
+				String warp = String.valueOf(args[0].toLowerCase());
+					if(warps.getWarps().contains(warp)){
+						String world = warps.getWarps().getString(warp + ".world");
+						int x = warps.getWarps().getInt(warp + ".x");
+						int y = warps.getWarps().getInt(warp + ".y");
+						int z = warps.getWarps().getInt(warp + ".z");
+						float yaw = warps.getWarps().getInt(warp + ".yaw");
+						float pitch = warps.getWarps().getInt(warp + ".pitch");
+						Location loc = new Location(Bukkit.getWorld(world), x , y , z, yaw , pitch);
+						player.sendMessage(ChatColor.DARK_GREEN + "Warping to " + ChatColor.GOLD + warp);
+						player.teleport(loc);
+						return true;
+					}else{
+						player.sendMessage(ChatColor.RED + "The warp " + ChatColor.GOLD + warp + ChatColor.RED + " doesn't exist");
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
 }

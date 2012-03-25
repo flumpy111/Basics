@@ -29,7 +29,7 @@ public class PositionCommand implements CommandExecutor {
 					float pitch = player.getLocation().getPitch();
 					String world = player.getWorld().getName();
 					double blocks = player.getLocation().distance(player.getWorld().getSpawnLocation());
-					player.sendMessage(green + "----------");
+					player.sendMessage(green + "------------");
 					player.sendMessage(green + "World: " + white + world);
 					player.sendMessage(green + "X: " + white + x);
 					player.sendMessage(green + "Y: " + white + y);

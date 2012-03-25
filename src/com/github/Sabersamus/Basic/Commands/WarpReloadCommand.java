@@ -17,7 +17,7 @@ public class WarpReloadCommand implements CommandExecutor{
 			String[] args) {
 		if(cmd.getName().equalsIgnoreCase("warpsreload")){
 			if(cs.hasPermission("basic.reloadwarps")){
-			plugin.reloadWarps();
+			plugin.getWarpInfo().reloadWarps();
 			cs.sendMessage(ChatColor.YELLOW + "Warps reloaded");
 			return true;
 			}else{

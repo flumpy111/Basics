@@ -9,8 +9,7 @@ import org.bukkit.entity.Player;
 import com.github.Sabersamus.Basic.Basic;
 
 public class MessageCommand implements CommandExecutor{
-	@SuppressWarnings("unused")
-	private Basic plugin;
+	public static Basic plugin;
 	public MessageCommand(Basic instance) {
 		plugin = instance;
 	}
@@ -22,24 +21,36 @@ public class MessageCommand implements CommandExecutor{
 		if(cmd.getName().equalsIgnoreCase("m")){
 		Player target = Bukkit.getServer().getPlayer(args[0]);
 		if(target != null){
+			if(cs instanceof Player){
 			String msg = "";
 			for (int i = 1; i < args.length - 1; i++) {
 			msg += args[i] + ' ';
 			}
 			msg += args[args.length - 1];
-			if((args.length != 0) && (args.length != 1)){
-			cs.sendMessage(ChatColor.RED + "(to): " + ChatColor.DARK_GREEN + "[" + target.getDisplayName() + ChatColor.DARK_GREEN + "]" + ": " + ChatColor.WHITE + msg);
-			target.sendMessage(ChatColor.RED + "(from): " + ChatColor.DARK_GREEN + "[" + ((Player) cs).getDisplayName() +ChatColor.DARK_GREEN + "]" + ": " + ChatColor.WHITE + msg);
+			if(args.length > 1){
+			cs.sendMessage(ChatColor.RED + "(to): " + ChatColor.DARK_GREEN + "[" + target.getDisplayName() + ChatColor.DARK_GREEN + "]" + ": " + ChatColor.GREEN + msg);
+			target.sendMessage(ChatColor.RED + "(from): " + ChatColor.DARK_GREEN + "[" + ((Player) cs).getDisplayName() + ChatColor.DARK_GREEN + "]" + ": " + ChatColor.GREEN + msg);
 			return true;
 			}else{
-				cs.sendMessage(ChatColor.RED +  "Y U NO ENTER MESSAGE?");
 				return true;
 			}
-		}else{
+			}else{
+				String msg = "";
+				for (int i = 1; i < args.length - 1; i++) {
+				msg += args[i] + ' ';
+				}
+				msg += args[args.length - 1];
+				if((args.length != 0) && (args.length != 1)){
+				cs.sendMessage(ChatColor.RED + "(to): " + ChatColor.DARK_GREEN + "[" + target.getDisplayName() + ChatColor.DARK_GREEN + "]" + ": " + ChatColor.GREEN + msg);
+				target.sendMessage(ChatColor.RED + "(from): " + ChatColor.DARK_GREEN + "[" + ChatColor.RED + "Server" + ChatColor.DARK_GREEN + "]" + ": " + ChatColor.GREEN + msg);
+				return true;
+			}
+		}
+	}else{
 			cs.sendMessage(ChatColor.RED + "That player is offline");
 		return true;
+			}
 		}
-	}
 		return false;
 	}
-	}
+}
