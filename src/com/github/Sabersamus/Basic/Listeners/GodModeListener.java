@@ -31,7 +31,7 @@ public void onFoodLevelChangeEvent(FoodLevelChangeEvent event){
 	Player player = (Player) event.getEntity();
 	if(player.hasPermission("basic.god")){
 		event.setCancelled(true);
+			}
+		}
 	}
-	}
-}
 }

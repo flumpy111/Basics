@@ -37,12 +37,14 @@ import com.github.Sabersamus.Basic.Commands.WarpReloadCommand;
 import com.github.Sabersamus.Basic.Commands.WeatherCommand;
 import com.github.Sabersamus.Basic.Commands.WhoCommand;
 import com.github.Sabersamus.Basic.Economy.Economy;
+import com.github.Sabersamus.Basic.Economy.ManageCommand;
 import com.github.Sabersamus.Basic.Economy.MoneyListener;
 import com.github.Sabersamus.Basic.Economy.Wallet;
 import com.github.Sabersamus.Basic.Listeners.BasicPlayerListener;
 import com.github.Sabersamus.Basic.Listeners.CompassListener;
 import com.github.Sabersamus.Basic.Listeners.DropsListener;
 import com.github.Sabersamus.Basic.Listeners.GodModeListener;
+import com.github.Sabersamus.Basic.Listeners.SignColorListener;
 
 public class Basic extends JavaPlugin {
 	
@@ -52,6 +54,7 @@ private final CompassListener compassListener = new CompassListener(this);
 private final GodModeListener godModeListener = new GodModeListener(this);
 private final MoneyListener mlist = new MoneyListener(this);
 private final DropsListener drops = new DropsListener(this);
+private final SignColorListener signs = new SignColorListener(this);
 
 
 @Override
@@ -73,6 +76,7 @@ public void onEnable() {
 				pm.registerEvents(this.godModeListener, this);
 				pm.registerEvents(this.drops, this);
 				pm.registerEvents(this.mlist, this);
+				pm.registerEvents(this.signs, this);
 	getWarpInfo().loadWarps();
 	getPlayerInfo().loadPlayers();
 	getBansInfo().loadBans();
@@ -119,6 +123,7 @@ private void registerCommands(Basic basic) {
 				this.getCommand("freeze").setExecutor(new FreezeCommand(this));
 				this.getCommand("pos").setExecutor(new PositionCommand(this));
 				this.getCommand("wallet").setExecutor(new Wallet(this));
+				this.getCommand("economy").setExecutor(new ManageCommand(this));
 		}
 
 		public WarpConfig getWarpInfo(){

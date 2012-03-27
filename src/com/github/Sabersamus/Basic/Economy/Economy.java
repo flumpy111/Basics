@@ -3,10 +3,11 @@ package com.github.Sabersamus.Basic.Economy;
 import org.bukkit.entity.Player;
 
 import com.github.Sabersamus.Basic.Basic;
+import com.github.Sabersamus.Basic.EcoConfig;
 import com.github.Sabersamus.Basic.EconomyInfo;
 
 /**
- * Methods to manage players balance
+ * Methods to manage the economy
  */
 public class Economy 
 {
@@ -14,6 +15,7 @@ public class Economy
 	public Economy(Basic instance){
 		plugin = instance;
 	}
+	
 	
 	/**
 	 * Gets the balance of a player
@@ -38,9 +40,10 @@ public class Economy
 		if(info.getMoney().contains(player.getName())){
 			info.getMoney().set(player.getName() + ".Balance", plugin.getEconomyInfo().getMoney().getInt(player.getName() + ".Balance") + amount);
 			info.saveMoney();
-		}
+		}else{
 		info.getMoney().set(player.getName() + ".Balance", amount);
 		info.saveMoney();
+		}
 	}
 	
 	/**
@@ -70,4 +73,46 @@ public class Economy
 			settings.getMoney().set(player.getName() + ".Balance", amount);
 			settings.saveMoney();
 	}
+	
+	/**
+	 * Enables the economy
+	 */
+	public void enableEconomy(){
+		EcoConfig settings = plugin.getSettings();
+			settings.getConf().set("Economy.enabled", true);
+			settings.saveConf();
+	}
+	
+	/**
+	 * Disables the economy
+	 */
+	public void disableEconomy(){
+		EcoConfig settings = plugin.getSettings();
+			settings.getConf().set("Economy.enabled", false);
+			settings.saveConf();
+	}
+	
+	/**
+	 * Gets a boolean value of if the economy has been enabled or not
+	 * @return true if the economy is on, false if its off
+	 */
+	public boolean getEconomyStatus(){
+		EcoConfig settings = plugin.getSettings();
+			if(settings.getConf().getBoolean("Economy.enabled") == true){
+				return true;
+			}else{
+				return false;
+			}
+	}
+	
+	/**
+	 * Renames the economy
+	 * @param name - string, the name to be set 
+	 */
+	public void setEconomyName(String name){
+		EcoConfig settings = plugin.getSettings();
+		settings.getConf().set("Economy.name", name);
+		settings.saveConf();
+	}
+	
 }

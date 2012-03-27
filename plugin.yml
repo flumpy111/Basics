@@ -121,6 +121,13 @@ commands:
             /<command> [check/balance] - tells you your balance
             /<command> tell - tells the whole server your balance
             /<command> [pay/give] <player> <amount>
+    economy:
+        description: manage the economy's settings in-game
+        aliases: eco
+        usage: |
+            /<command> enable
+            /<command> disable
+            /<command> name [name]
 permissions:
     basic.*:
         description: allows access to all commands

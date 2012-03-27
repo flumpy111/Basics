@@ -34,11 +34,11 @@ public class CompassListener implements Listener {
     	block = player.getTargetBlock(null, 1000);
     	loc = block.getLocation();
     	action = ev.getAction();
+    	if(action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_AIR))return;
     	item = player.getItemInHand();
     	if(item.getType() == Material.COMPASS){
-    	if(action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK ){
+    	if(action == Action.RIGHT_CLICK_BLOCK ){
     	if(loc != null){
-    		
     		pitch = player.getLocation().getPitch();
     		yaw = player.getLocation().getYaw();
     		loc.setPitch(pitch);
