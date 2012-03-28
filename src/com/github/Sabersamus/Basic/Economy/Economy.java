@@ -3,7 +3,6 @@ package com.github.Sabersamus.Basic.Economy;
 import org.bukkit.entity.Player;
 
 import com.github.Sabersamus.Basic.Basic;
-import com.github.Sabersamus.Basic.EcoConfig;
 import com.github.Sabersamus.Basic.EconomyInfo;
 
 /**
@@ -16,7 +15,15 @@ public class Economy
 		plugin = instance;
 	}
 	
+	private boolean hasEnough;
 	
+	public boolean hasEnough(){
+		if(hasEnough){
+			return true;
+		}else{
+			return false;
+		}
+	}
 	/**
 	 * Gets the balance of a player
 	 * @param - player the player chosen
@@ -28,6 +35,22 @@ public class Economy
 			return info.getMoney().getInt(player.getName() + ".Balance");
 		}
 		return 0;
+	}
+	
+	/**
+	 * Transfers money from one player to another
+	 * @param givingPlayer - the player to give the money
+	 * @param receivingPlayer - the player to get the money
+	 * @param value - the amount of money to be transferred
+	 */
+	public void transferMoney(Player givingPlayer, Player receivingPlayer, int value){
+		EconomyInfo info = plugin.getEconomyInfo();
+			if(givingPlayer == null || receivingPlayer == null)return;
+			if(info.getMoney().getInt(givingPlayer.getName()) - value < 0){
+				return;
+			}
+			this.subtractMoney(givingPlayer, value);
+			this.addMoney(receivingPlayer, value);
 	}
 	
 	/**
@@ -54,7 +77,11 @@ public class Economy
 	public void subtractMoney(Player player, int amount){
 		EconomyInfo settings = plugin.getEconomyInfo();
 		if(settings.getMoney().contains(player.getName())){
-			if(settings.getMoney().getInt(player.getName() + ".Balance") - amount < 0)return;
+			if(settings.getMoney().getInt(player.getName() + ".Balance") - amount < 0){
+				this.hasEnough = false;
+				return;
+			}
+			this.hasEnough = true;
 			settings.getMoney().set(player.getName() + ".Balance", settings.getMoney().getInt(player.getName() + ".Balance") - amount);
 			settings.saveMoney();
 		}
@@ -73,46 +100,4 @@ public class Economy
 			settings.getMoney().set(player.getName() + ".Balance", amount);
 			settings.saveMoney();
 	}
-	
-	/**
-	 * Enables the economy
-	 */
-	public void enableEconomy(){
-		EcoConfig settings = plugin.getSettings();
-			settings.getConf().set("Economy.enabled", true);
-			settings.saveConf();
-	}
-	
-	/**
-	 * Disables the economy
-	 */
-	public void disableEconomy(){
-		EcoConfig settings = plugin.getSettings();
-			settings.getConf().set("Economy.enabled", false);
-			settings.saveConf();
-	}
-	
-	/**
-	 * Gets a boolean value of if the economy has been enabled or not
-	 * @return true if the economy is on, false if its off
-	 */
-	public boolean getEconomyStatus(){
-		EcoConfig settings = plugin.getSettings();
-			if(settings.getConf().getBoolean("Economy.enabled") == true){
-				return true;
-			}else{
-				return false;
-			}
-	}
-	
-	/**
-	 * Renames the economy
-	 * @param name - string, the name to be set 
-	 */
-	public void setEconomyName(String name){
-		EcoConfig settings = plugin.getSettings();
-		settings.getConf().set("Economy.name", name);
-		settings.saveConf();
-	}
-	
 }

@@ -1,6 +1,5 @@
 package com.github.Sabersamus.Basic.Economy;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,20 +15,28 @@ public class MoneyListener implements Listener{
 		plugin = instance;
 	}
 
-	
+	/*
+	 * Holy crap this needs cleaning D:
+	 */
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event){
 		EconomyInfo ecoinfo = plugin.getEconomyInfo();
 		Economy eco = plugin.getEconomyAPI();
 		EcoConfig settings = plugin.getSettings();
+		EconomyManager manager = plugin.getEcoManager();
+		String economyMessage = settings.getConf().getString("Messages.account-create-message").replaceAll("(&([a-fk0-9]))", "\u00A7$2");
 		Player player = event.getPlayer();
 		String name = player.getName();
-		String mname = settings.getConf().getString("Economy.name");
+		String mName = settings.getConf().getString("Economy.name");
 		if(settings.getConf().getBoolean("Economy.enabled") == true){
 		int amount = settings.getConf().getInt("Economy.default amount");
 		if(!ecoinfo.getMoney().contains(name)){
 			eco.setBalance(player, amount);
-			player.sendMessage(ChatColor.AQUA + "You're balance has been set to " + amount + " " + mname );
+			player.sendMessage(economyMessage.replace("%money", String.valueOf(amount)).replace("%name", mName));
+			}else{
+				if(manager.getShowBalanceOnJoin()){
+					player.sendMessage(settings.getConf().getString("Messages.check-message").replaceAll("(&([a-fk0-9]))", "\u00A7$2").replace("%money", String.valueOf(amount)).replace("%name", mName));
+				}
 			}
 		}else if(settings.getConf().getBoolean("Economy.enabled") == false){
 			return;

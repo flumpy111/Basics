@@ -1,7 +1,6 @@
 package com.github.Sabersamus.Basic.Economy;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -29,18 +28,21 @@ public class Wallet implements CommandExecutor
 					if(settings.getConf().getBoolean("Economy.enabled") == true){
 						if(args.length == 0){
 							int money = eco.getBalance(player);
-							player.sendMessage(ChatColor.DARK_AQUA + "Your balance is " + ChatColor.GOLD + money + ChatColor.DARK_AQUA + " " + mName);
+							String checkMessage = settings.getConf().getString("Messages.check-message").replaceAll("(&([a-fk0-9]))", "\u00A7$2");
+							player.sendMessage(checkMessage.replace("%name", mName).replace("%money", String.valueOf(money)));
 							return true;
 						}else{
 							String usage = String.valueOf(args[0]);
 							if(args.length == 1){
 								if(usage.equalsIgnoreCase("balance") || usage.equalsIgnoreCase("check")){
 									int money = eco.getBalance(player);
-									player.sendMessage(ChatColor.DARK_AQUA + "Your balance is " + ChatColor.GOLD + money + ChatColor.DARK_AQUA + " " + mName);
+									String checkMessage = settings.getConf().getString("Messages.check-message").replaceAll("(&([a-fk0-9]))", "\u00A7$2");
+									player.sendMessage(checkMessage.replace("%name", mName).replace("%money", String.valueOf(money)));
 									return true;
 								}else if(usage.equalsIgnoreCase("tell")){
+									String tellMessage = settings.getConf().getString("Messages.tell-message").replaceAll("(&([a-fk0-9]))", "\u00A7$2");
 									int money = eco.getBalance(player);
-									player.getServer().broadcastMessage(player.getDisplayName() + ChatColor.AQUA  + " has " + ChatColor.GOLD + money + ChatColor.AQUA + " " + mName);
+									player.getServer().broadcastMessage(tellMessage.replace("%p", player.getDisplayName()).replace("%name", mName).replace("%money", String.valueOf(money)));
 									return true;
 						}
 					}else if(args.length == 3){
@@ -52,20 +54,25 @@ public class Wallet implements CommandExecutor
 										return true;
 									}
 										if(eco.getBalance(player) - value < 0){
-											player.sendMessage(ChatColor.RED + "You dont have that much money!");
+											String notEnough = settings.getConf().getString("Messages.not-enough-money").replaceAll("(&([a-fk0-9]))", "\u00A7$2");
+											player.sendMessage(notEnough.replace("%name", mName));
 											return true;
 								}
-										eco.addMoney(target, value);
-										eco.subtractMoney(player, value);
-										player.sendMessage(ChatColor.AQUA + "You gave " + target.getDisplayName() + " " + ChatColor.GOLD + value + ChatColor.AQUA + " " + mName);
-										target.sendMessage(player.getDisplayName() + ChatColor.AQUA + " gave you " + ChatColor.GOLD + value + ChatColor.AQUA + " " + mName);
+										//eco.addMoney(target, value);
+										//eco.subtractMoney(player, value);
+										eco.transferMoney(player, target, value);
+										String giveMessage = settings.getConf().getString("Messages.give-message").replaceAll("(&([a-fk0-9]))", "\u00A7$2");
+										String getMessage = settings.getConf().getString("Messages.receive-message").replaceAll("(&([a-fk0-9]))", "\u00A7$2");
+										player.sendMessage(giveMessage.replace("%t", target.getDisplayName()).replace("%money", String.valueOf(value)).replace("%name", mName));
+										target.sendMessage(getMessage.replace("%p", player.getDisplayName()).replace("%money", String.valueOf(value)).replace("%name", mName));
 										return true;
 								}
 							}
 						}
 					}
 				}else if(settings.getConf().getBoolean("Economy.enabled") == false){
-					player.sendMessage(ChatColor.RED + "Economy is disabled");
+					String disabledMessage = settings.getConf().getString("Messages.disabled-message").replaceAll("(&([a-fk0-9]))", "\u00A7$2");
+					player.sendMessage(disabledMessage);
 						return true;
 				}
 			}

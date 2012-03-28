@@ -1,6 +1,6 @@
 name: Basic
 main: com.github.Sabersamus.Basic.Basic
-version: 0.6
+version: 0.6.1
 author: Sabersamus
 description: A simple plugin for managing your server
 devurl: dev.bukkit.org/server-mods/basiccontrol
@@ -127,7 +127,9 @@ commands:
         usage: |
             /<command> enable
             /<command> disable
-            /<command> name [name]
+            /<command> rename [name]
+            /<command> reload
+            /<command>
 permissions:
     basic.*:
         description: allows access to all commands

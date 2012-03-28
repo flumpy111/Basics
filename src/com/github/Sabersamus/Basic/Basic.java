@@ -37,6 +37,7 @@ import com.github.Sabersamus.Basic.Commands.WarpReloadCommand;
 import com.github.Sabersamus.Basic.Commands.WeatherCommand;
 import com.github.Sabersamus.Basic.Commands.WhoCommand;
 import com.github.Sabersamus.Basic.Economy.Economy;
+import com.github.Sabersamus.Basic.Economy.EconomyManager;
 import com.github.Sabersamus.Basic.Economy.ManageCommand;
 import com.github.Sabersamus.Basic.Economy.MoneyListener;
 import com.github.Sabersamus.Basic.Economy.Wallet;
@@ -151,5 +152,9 @@ private void registerCommands(Basic basic) {
 
 		public Economy getEconomyAPI(){
 			return new Economy(this);
+		}
+		
+		public EconomyManager getEcoManager(){
+			return new EconomyManager(this);
 		}
 }

@@ -18,7 +18,7 @@ public class EcoConfig
 	
 	public void loadConf() {
 		this.getConf().options().copyDefaults(true);
-	saveConf();
+		saveConf();
 	}
 
 	public void reloadConf() {
