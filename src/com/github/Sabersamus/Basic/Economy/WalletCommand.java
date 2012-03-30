@@ -23,7 +23,7 @@ public class WalletCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender cs, Command cmd, String label, String[] args) {
 		if(cmd.getName().equalsIgnoreCase("wallet")){
 			if(!(cs instanceof Player))return false;
-			String mname = plugin.getSettings().getConf().getString("Economy.name");
+			String mname = plugin.getSettings().getSettings().getString("Economy.name");
 			Player player = (Player)cs;
 			String name = player.getName();
 			if(args.length == 0){

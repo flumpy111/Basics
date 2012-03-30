@@ -22,6 +22,10 @@ public class GiveCommand implements CommandExecutor{
 	@Override
 	public boolean onCommand(CommandSender cs, Command cmd, String aliases, String[] args) {
 		if(cmd.getName().equalsIgnoreCase("give")){
+			if(args.length == 0){
+				cs.sendMessage(ChatColor.RED + "Please pick a player");
+				return true;
+			}
 		Material material = null;
 		try {
 		material = Material.getMaterial(Integer.parseInt(args[1]));
@@ -37,7 +41,7 @@ public class GiveCommand implements CommandExecutor{
 			ItemStack item = new ItemStack(material, 1);
 			target.getInventory().addItem(item);
 			target.sendMessage(ChatColor.AQUA + "You have been recieved a gift from god!");
-			cs.sendMessage(ChatColor.GREEN + "You gave "  + target.getDisplayName() + ChatColor.GREEN +" a "+ item.getType().name().toLowerCase().replace("_", " ").replace(" on", "") + ".");
+			cs.sendMessage(ChatColor.GREEN + "You gave "  + target.getDisplayName() + ChatColor.GREEN +" a "+ item.getType().name().toLowerCase().replace("_", " ") + ".");
 			return true;
 			}else{
 				if(args.length == 3){
@@ -45,23 +49,23 @@ public class GiveCommand implements CommandExecutor{
 				ItemStack item = new ItemStack(material, value);
 				target.getInventory().addItem(item);
 				target.sendMessage(ChatColor.AQUA + "You have recieved a gift from god!");
-				cs.sendMessage(ChatColor.GREEN + "You gave " + target.getDisplayName() + ChatColor.GREEN + " " + value + " " + item.getType().name().toLowerCase().replace("_", " ").replace(" on", "") + "s.");
+				cs.sendMessage(ChatColor.GREEN + "You gave " + target.getDisplayName() + ChatColor.GREEN + " " + value + " " + item.getType().name().toLowerCase().replace("_", " ") + "s.");
 				
 				return true;
 				}else{
-					return false;
+					if(args.length == 4){
+						Integer value = Integer.valueOf(args[2]);
+						short data = Short.parseShort(args[3]);
+						ItemStack item = new ItemStack(material, value, data);
+						target.getInventory().addItem(item);
+						target.sendMessage(ChatColor.AQUA + "You have recieved a gift from god!");
+						cs.sendMessage(ChatColor.GREEN + "You gave " + target.getDisplayName() + ChatColor.GREEN + " " + value + " " + item.getType().name().toLowerCase().replace("_", " ") + "s.");
+					}
 				}
 			}
-			}else{
-				cs.sendMessage(ChatColor.RED + "Invalid item");
-			}
-			}else{
-				cs.sendMessage(ChatColor.RED + "WTF are you even trying to do?");
-			}
-			}else{
-				cs.sendMessage(ChatColor.RED + "You don't have permission");
-				return true;
-			}
+		}
+	}
+}
 			}else{
 				cs.sendMessage(ChatColor.RED + "Invalid player");
 				return true;

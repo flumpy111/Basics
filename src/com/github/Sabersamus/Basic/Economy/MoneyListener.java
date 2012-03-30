@@ -6,8 +6,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import com.github.Sabersamus.Basic.Basic;
-import com.github.Sabersamus.Basic.EcoConfig;
 import com.github.Sabersamus.Basic.EconomyInfo;
+import com.github.Sabersamus.Basic.Settings;
 
 public class MoneyListener implements Listener{
 	public static Basic plugin;
@@ -22,23 +22,25 @@ public class MoneyListener implements Listener{
 	public void onJoin(PlayerJoinEvent event){
 		EconomyInfo ecoinfo = plugin.getEconomyInfo();
 		Economy eco = plugin.getEconomyAPI();
-		EcoConfig settings = plugin.getSettings();
+		Settings settings = plugin.getSettings();
 		EconomyManager manager = plugin.getEcoManager();
-		String economyMessage = settings.getConf().getString("Messages.account-create-message").replaceAll("(&([a-fk0-9]))", "\u00A7$2");
+		
+		String economyMessage = manager.getEconomyMessages().getCreateMessage();
 		Player player = event.getPlayer();
 		String name = player.getName();
-		String mName = settings.getConf().getString("Economy.name");
-		if(settings.getConf().getBoolean("Economy.enabled") == true){
-		int amount = settings.getConf().getInt("Economy.default amount");
+		Economy api = plugin.getEconomyAPI();
+		String mName = settings.getSettings().getString("Economy.name");
+		if(settings.getSettings().getBoolean("Economy.enabled") == true){
+		int amount = settings.getSettings().getInt("Economy.default amount");
 		if(!ecoinfo.getMoney().contains(name)){
 			eco.setBalance(player, amount);
 			player.sendMessage(economyMessage.replace("%money", String.valueOf(amount)).replace("%name", mName));
 			}else{
 				if(manager.getShowBalanceOnJoin()){
-					player.sendMessage(settings.getConf().getString("Messages.check-message").replaceAll("(&([a-fk0-9]))", "\u00A7$2").replace("%money", String.valueOf(amount)).replace("%name", mName));
+					player.sendMessage(manager.getEconomyMessages().getCheckMessage().replace("%money", String.valueOf(api.getBalance(player))).replace("%name", mName));
 				}
 			}
-		}else if(settings.getConf().getBoolean("Economy.enabled") == false){
+		}else if(settings.getSettings().getBoolean("Economy.enabled") == false){
 			return;
 		}
 	}

@@ -1,7 +1,7 @@
 package com.github.Sabersamus.Basic.Economy;
 
 import com.github.Sabersamus.Basic.Basic;
-import com.github.Sabersamus.Basic.EcoConfig;
+import com.github.Sabersamus.Basic.Settings;
 
 /**
  * Manages the economy's settings
@@ -19,35 +19,35 @@ public class EconomyManager
 	 * @param name - string, the name to be set 
 	 */
 	public void setEconomyName(String name){
-		EcoConfig settings = plugin.getSettings();
-		settings.getConf().set("Economy.name", name);
-		settings.saveConf();
+		Settings settings = plugin.getSettings();
+		settings.getSettings().set("Economy.name", name);
+		settings.saveSettings();
 	}
 
 	/**
 	 * Reloads the economy
 	 */
 	public void reloadEconomy(){
-		EcoConfig settings = plugin.getSettings();
-		settings.reloadConf();
+		Settings settings = plugin.getSettings();
+		settings.reloadSettings();
 	}
 	
 	/**
 	 * Enables the economy
 	 */
 	public void enableEconomy(){
-		EcoConfig settings = plugin.getSettings();
-			settings.getConf().set("Economy.enabled", true);
-			settings.saveConf();
+		Settings settings = plugin.getSettings();
+			settings.getSettings().set("Economy.enabled", true);
+			settings.saveSettings();
 	}
 	
 	/**
 	 * Disables the economy
 	 */
 	public void disableEconomy(){
-		EcoConfig settings = plugin.getSettings();
-			settings.getConf().set("Economy.enabled", false);
-			settings.saveConf();
+		Settings settings = plugin.getSettings();
+			settings.getSettings().set("Economy.enabled", false);
+			settings.saveSettings();
 	}
 	
 	/**
@@ -55,23 +55,31 @@ public class EconomyManager
 	 * @return true if the economy is on, false if its off
 	 */
 	public boolean getEconomyStatus(){
-		EcoConfig settings = plugin.getSettings();
-			if(settings.getConf().getBoolean("Economy.enabled") == true){
+		Settings settings = plugin.getSettings();
+			if(settings.getSettings().getBoolean("Economy.enabled") == true){
 				return true;
 			}else{
 				return false;
 		}
 	}
 	
+	/**
+	 * Checks to see if it shows balance on join
+	 * @return boolean, true if the configuration has this set, else false
+	 */
 	public boolean getShowBalanceOnJoin(){
-		EcoConfig settings = plugin.getSettings();
-			if(settings.getConf().getBoolean("Other-Settings.show balance on join") == true){
+		Settings settings = plugin.getSettings();
+			if(settings.getSettings().getBoolean("Other-Settings.show balance on join") == true){
 				return true;
 			}else{
 				return false;
 		}
 	}
 	
+	/**
+	 * Gets the economy messages
+	 * @return EconomyMessages
+	 */
 	public EconomyMessages getEconomyMessages(){
 		return new EconomyMessages(plugin);
 	}

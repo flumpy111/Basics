@@ -19,46 +19,48 @@ public class ItemCommand implements CommandExecutor{
 	@Override
 	public boolean onCommand(CommandSender cs, Command cmd, String aliases, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("item")){
+			if(cs.hasPermission("basic.item") && (cs instanceof Player)){
+				Player player = (Player)cs;
+				if(args.length == 0){
+					player.sendMessage(ChatColor.RED + "Please select an item first");
+					return true;
+				}
 			Material material = null;
 			try {
 			material = Material.getMaterial(Integer.parseInt(args[0]));
 			} catch (NumberFormatException e) {
 			material = Material.getMaterial(args[0].toUpperCase());
 			}
-			if(cs.hasPermission("basic.item") && (cs instanceof Player)){
-			if(args.length !=0){
 				if (material == null) {
-					cs.sendMessage(ChatColor.RED + "Invalid item name");
-				// no match found
+					player.sendMessage(ChatColor.RED + "Invalid item name");
 				return true;
 			}else{
 				if(args.length == 1){
 			ItemStack item = new ItemStack(material, 1);
-			((Player)cs).getInventory().addItem(item);
-			cs.sendMessage(ChatColor.BLUE + "You have gotten a " + material.name().toLowerCase().replace("_", " "));
+			player.getInventory().addItem(item);
+			player.sendMessage(ChatColor.BLUE + "You have gotten a " + material.name().toLowerCase().replace("_", " "));
 			return true;
 		}else{
 			if(args.length == 2){
 				Integer value = Integer.valueOf(args[1]);
 				ItemStack item = new ItemStack(material, value);
-				((Player)cs).getInventory().addItem(item);
-				cs.sendMessage(ChatColor.BLUE + "You have gotten " + value + " " + material.name().toLowerCase().replace("_", " ") + "s");
+				player.getInventory().addItem(item);
+				player.sendMessage(ChatColor.BLUE + "You have gotten " + value + " " + material.name().toLowerCase().replace("_", " ") + "s");
 				return true;
 		}else{
-			return false;
-		}
-			}
-		}
+			if(args.length == 3){
+				Integer value = Integer.valueOf(args[1]);
+				short data = Short.parseShort(args[2]);
+				ItemStack item = new ItemStack(material, value, data);
+				player.getInventory().addItem(item);
+				player.sendMessage(ChatColor.BLUE + "You have gotten " + value + " " + material.name().toLowerCase().replace("_", " ") + "s");
+				return true;
 			}else{
-				cs.sendMessage(ChatColor.RED + "Invalid command usage");
-				return true;
+				return false;
 			}
+		}
 			}
-		}else{
-			if(cmd.getName().equalsIgnoreCase("clear")){
-				((Player)cs).getInventory().clear();
-				cs.sendMessage(ChatColor.AQUA + "Your inventory is now clear");
-				return true;
+		}
 			}
 		}
 		return false;

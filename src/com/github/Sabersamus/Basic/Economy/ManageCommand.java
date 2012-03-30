@@ -57,9 +57,6 @@ public class ManageCommand implements CommandExecutor
 							return true;
 						}
 					}
-				} else { 
-					player.sendMessage(ChatColor.DARK_AQUA + "Basics-Economy: " + ChatColor.YELLOW + plugin.getSettings().getConf().getDouble("version"));
-					return true;
 				}
 			}
 		}else if(cmd.getName().equalsIgnoreCase("ecomessage")){
@@ -67,7 +64,7 @@ public class ManageCommand implements CommandExecutor
 				Player player = (Player)cs;
 					if(player.hasPermission("basic.economy.manage")){
 						String s = "";
-						for (int i = 2; i < args.length - 1; i++) {
+						for (int i = 1; i < args.length - 1; i++) {
 						s += args[i] + ' ';
 						}
 						s += args[args.length - 1];
@@ -79,6 +76,54 @@ public class ManageCommand implements CommandExecutor
 									return true;
 									}else{
 										player.sendMessage(messages.getTellMessage());
+										return true;
+									}
+								}else if(usage.equalsIgnoreCase("check")){
+									if(args.length > 1){
+									messages.setCheckMessage(s);
+									return true;
+									}else{
+										player.sendMessage(messages.getCheckMessage());
+										return true;
+									}
+								}else if(usage.equalsIgnoreCase("create")){
+									if(args.length > 1){
+									messages.setCreateMessage(s);
+									return true;
+									}else{
+										player.sendMessage(messages.getCreateMessage());
+										return true;
+									}
+								}else if(usage.equalsIgnoreCase("give")){
+									if(args.length > 1){
+									messages.setGiveMessage(s);
+									return true;
+									}else{
+										player.sendMessage(messages.getGiveMessage());
+										return true;
+									}
+								}else if(usage.equalsIgnoreCase("disabled")){
+									if(args.length > 1){
+									messages.setDisabledMessage(s);
+									return true;
+									}else{
+										player.sendMessage(messages.getDisabledMessage());
+										return true;
+									}
+								}else if(usage.equalsIgnoreCase("get")){
+									if(args.length > 1){
+									messages.setReceiveMessage(s);
+									return true;
+									}else{
+										player.sendMessage(messages.getReceiveMessage());
+										return true;
+									}
+								}else if(usage.equalsIgnoreCase("notenough")){
+									if(args.length > 1){
+									messages.setInvalidMoneyMessage(s);
+									return true;
+									}else{
+										player.sendMessage(messages.getInvalidMoneyMessage());
 										return true;
 									}
 								}

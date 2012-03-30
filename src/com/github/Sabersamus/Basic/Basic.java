@@ -1,10 +1,9 @@
 package com.github.Sabersamus.Basic;
 
-import java.util.logging.Logger;
-
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.Sabersamus.Basic.Commands.ClearCommand;
 import com.github.Sabersamus.Basic.Commands.DisguiseCommand;
 import com.github.Sabersamus.Basic.Commands.FakeQuitCommand;
 import com.github.Sabersamus.Basic.Commands.BanCommand;
@@ -49,7 +48,6 @@ import com.github.Sabersamus.Basic.Listeners.SignColorListener;
 
 public class Basic extends JavaPlugin {
 	
-public final Logger logger = Logger.getLogger("Minecraft");
 private final BasicPlayerListener playerListener = new BasicPlayerListener(this);
 private final CompassListener compassListener = new CompassListener(this);
 private final GodModeListener godModeListener = new GodModeListener(this);
@@ -61,7 +59,7 @@ private final SignColorListener signs = new SignColorListener(this);
 @Override
 public void onDisable() {
 	getWarpInfo().saveWarps();
-	getSettings().saveConf();
+	getSettings().saveSettings();
 	getPlayerInfo().savePlayers();
 	getBansInfo().saveBans();
 }
@@ -82,7 +80,7 @@ public void onEnable() {
 	getPlayerInfo().loadPlayers();
 	getBansInfo().loadBans();
 	getEconomyInfo().loadMoney();
-	getSettings().loadConf();
+	getSettings().loadSettings();
     }
 
 private void registerCommands(Basic basic) {
@@ -107,7 +105,9 @@ private void registerCommands(Basic basic) {
 				this.getCommand("survival").setExecutor(new SurvivalCommand(this));
 				this.getCommand("boom").setExecutor(new BoomCommand(this));
 				this.getCommand("item").setExecutor(new ItemCommand(this));
-				this.getCommand("clear").setExecutor(new ItemCommand(this));
+				
+				this.getCommand("clear").setExecutor(new ClearCommand(this));
+				
 				this.getCommand("give").setExecutor(new GiveCommand(this));
 				this.getCommand("spawn").setExecutor(new SpawnCommand(this));
 				this.getCommand("setspawn").setExecutor(new SpawnCommand(this));
@@ -125,6 +125,7 @@ private void registerCommands(Basic basic) {
 				this.getCommand("pos").setExecutor(new PositionCommand(this));
 				this.getCommand("wallet").setExecutor(new Wallet(this));
 				this.getCommand("economy").setExecutor(new ManageCommand(this));
+				this.getCommand("ecomessage").setExecutor(new ManageCommand(this));
 		}
 
 		public WarpConfig getWarpInfo(){
@@ -135,8 +136,8 @@ private void registerCommands(Basic basic) {
 			return new BanConfig(this);
 		}
 
-		public EcoConfig getSettings(){
-			return new EcoConfig(this);
+		public Settings getSettings(){
+			return new Settings(this);
 		}
 		
 
@@ -156,5 +157,9 @@ private void registerCommands(Basic basic) {
 		
 		public EconomyManager getEcoManager(){
 			return new EconomyManager(this);
+		}
+		
+		public Messages getMessages(){
+			return new Messages(this);
 		}
 }

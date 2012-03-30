@@ -80,10 +80,11 @@ public class Economy
 			if(settings.getMoney().getInt(player.getName() + ".Balance") - amount < 0){
 				this.hasEnough = false;
 				return;
-			}
+			}else{
 			this.hasEnough = true;
 			settings.getMoney().set(player.getName() + ".Balance", settings.getMoney().getInt(player.getName() + ".Balance") - amount);
 			settings.saveMoney();
+			}
 		}
 	}
 	
@@ -96,8 +97,9 @@ public class Economy
 		EconomyInfo settings = plugin.getEconomyInfo();
 		if(amount < 0){
 			return;
+		}else{
+		settings.getMoney().set(player.getName() + ".Balance", amount);
+		settings.saveMoney();
 		}
-			settings.getMoney().set(player.getName() + ".Balance", amount);
-			settings.saveMoney();
 	}
 }

@@ -7,27 +7,27 @@ import java.io.InputStream;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-public class EcoConfig 
+public class Settings 
 {
 	public static Basic plugin;
-	public EcoConfig(Basic instance){
+	public Settings(Basic instance){
 		plugin = instance;
 	}
 	private File confFile = null;
 	private FileConfiguration conf = null;
 	
-	public void loadConf() {
-		this.getConf().options().copyDefaults(true);
-		saveConf();
+	public void loadSettings() {
+		this.getSettings().options().copyDefaults(true);
+		saveSettings();
 	}
 
-	public void reloadConf() {
+	public void reloadSettings() {
 		if (confFile == null) {
-		confFile = new File(plugin.getDataFolder(), "Economy Settings.yml");
+		confFile = new File(plugin.getDataFolder(), "config.yml");
 		}
 		conf = YamlConfiguration.loadConfiguration(confFile);
 
-		InputStream defConfigStream = plugin.getResource("Economy Settings.yml");
+		InputStream defConfigStream = plugin.getResource("config.yml");
 		if(defConfigStream != null) {
 	YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
 	conf.setDefaults(defConfig);
@@ -35,14 +35,14 @@ public class EcoConfig
 }
 
 
-	public FileConfiguration getConf() {
+	public FileConfiguration getSettings() {
 		if (conf == null) {
-			reloadConf();
+			reloadSettings();
 		}
 		return conf;
 }
 
-	public void saveConf() {
+	public void saveSettings() {
 		if (conf == null || confFile == null) {
 			return;
 		}

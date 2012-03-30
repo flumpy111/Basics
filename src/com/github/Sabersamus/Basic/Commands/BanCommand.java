@@ -1,5 +1,7 @@
 package com.github.Sabersamus.Basic.Commands;
 
+import java.util.logging.Logger;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -20,6 +22,7 @@ public BanCommand(Basic instance){
 @Override
 public boolean onCommand(CommandSender cs, Command cmd, String aliases, String[] args) {
 	if(cmd.getName().equalsIgnoreCase("ban")){
+		Logger log = plugin.getLogger();
 		BanConfig config = plugin.getBansInfo();
 		if(cs instanceof Player){
 			Player player = (Player)cs;
@@ -28,16 +31,18 @@ public boolean onCommand(CommandSender cs, Command cmd, String aliases, String[]
 					Player target = Bukkit.getPlayer(args[0]);
 					if(target != null){
 					String name = target.getName().toLowerCase();
-						target.kickPlayer(ChatColor.RED + "You have been banned by " + player.getDisplayName());
+						target.kickPlayer(plugin.getMessages().getBanMessage().replace("%banner", player.getDisplayName()));
 						config.getBans().set(name + ".Banned", true);
 						config.saveBans();
-						Bukkit.getServer().broadcastMessage(target.getDisplayName() + ChatColor.RED + " has been banned by " + player.getDisplayName());
+						Bukkit.getServer().broadcastMessage(plugin.getMessages().getBanBroadCast().replace("%player", target.getDisplayName()).replace("%banner", player.getDisplayName()));
+						log.info(name + " has been banned");
 						return true;
 					}else{
 						String banName = String.valueOf(args[0].toLowerCase());
 						config.getBans().set(banName + ".Banned", true);
 						config.saveBans();
 						player.sendMessage(ChatColor.RED + banName + " has been banned");
+						log.info(banName + "has been banned");
 						return true;
 					}
 				}
@@ -47,8 +52,8 @@ public boolean onCommand(CommandSender cs, Command cmd, String aliases, String[]
 				Player target = Bukkit.getPlayer(args[0]);
 				if(target != null){
 				String name = target.getName().toLowerCase();
-				target.kickPlayer(ChatColor.RED + "You have been banned");
-				Bukkit.getServer().broadcastMessage(target.getDisplayName() + ChatColor.RED + " has been banned");
+				target.kickPlayer(plugin.getMessages().getBanMessage().replace("%banner", "console"));
+				Bukkit.getServer().broadcastMessage(plugin.getMessages().getKickBroadCast().replace("%player", target.getDisplayName()).replace("%banner", "console"));
 				config.getBans().set(name + ".Banned", true);
 				config.saveBans();
 				return true;
@@ -63,6 +68,7 @@ public boolean onCommand(CommandSender cs, Command cmd, String aliases, String[]
 		}
 	}else{
 		if(cmd.getName().equalsIgnoreCase("unban")){
+			Logger log = plugin.getLogger();
 			BanConfig config = plugin.getBansInfo();
 			if(cs instanceof Player){
 				Player player = (Player)cs;
@@ -73,6 +79,7 @@ public boolean onCommand(CommandSender cs, Command cmd, String aliases, String[]
 							config.getBans().set(name, null);
 							config.saveBans();
 							player.sendMessage(ChatColor.AQUA + name + " has been unbanned");
+							log.info(name + " has been unbanned");
 							return true;
 						}else{
 							player.sendMessage(ChatColor.RED + name + " is not banned");
