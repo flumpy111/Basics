@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 import com.github.Sabersamus.Basic.Basic;
 import com.github.Sabersamus.Basic.Settings;
-import com.github.Sabersamus.Basic.Economy.Economy;
+import com.github.Sabersamus.Basic.Economy.API.Economy;
 
 public class WhoCommand implements CommandExecutor{
 	public static Basic plugin;

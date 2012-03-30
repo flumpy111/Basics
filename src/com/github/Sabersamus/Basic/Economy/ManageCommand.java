@@ -7,6 +7,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.github.Sabersamus.Basic.Basic;
+import com.github.Sabersamus.Basic.Economy.API.EconomyManager;
+import com.github.Sabersamus.Basic.Economy.API.EconomyMessages;
 
 public class ManageCommand implements CommandExecutor
 {

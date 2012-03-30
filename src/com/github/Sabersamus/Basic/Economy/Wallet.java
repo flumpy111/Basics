@@ -8,6 +8,8 @@ import org.bukkit.entity.Player;
 
 import com.github.Sabersamus.Basic.Basic;
 import com.github.Sabersamus.Basic.Settings;
+import com.github.Sabersamus.Basic.Economy.API.Economy;
+import com.github.Sabersamus.Basic.Economy.API.EconomyMessages;
 
 public class Wallet implements CommandExecutor
 {

@@ -8,6 +8,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import com.github.Sabersamus.Basic.Basic;
 import com.github.Sabersamus.Basic.EconomyInfo;
 import com.github.Sabersamus.Basic.Settings;
+import com.github.Sabersamus.Basic.Economy.API.Economy;
+import com.github.Sabersamus.Basic.Economy.API.EconomyManager;
 
 public class MoneyListener implements Listener{
 	public static Basic plugin;

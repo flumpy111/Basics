@@ -1,4 +1,4 @@
-package com.github.Sabersamus.Basic.Economy;
+package com.github.Sabersamus.Basic.Economy.API;
 
 import org.bukkit.entity.Player;
 
