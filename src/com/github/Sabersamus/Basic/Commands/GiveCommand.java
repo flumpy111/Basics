@@ -18,59 +18,83 @@ public class GiveCommand implements CommandExecutor{
 		plugin = instance;
 	
 }
-
+	
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender cs, Command cmd, String aliases, String[] args) {
-		if(cmd.getName().equalsIgnoreCase("give")){
-			if(args.length == 0){
-				cs.sendMessage(ChatColor.RED + "Please pick a player");
-				return true;
+		if(cmd.getName().equalsIgnoreCase("give") && args.length > 1){
+			Material material = null;
+			
+			try{
+				material = Material.getMaterial(Integer.parseInt(args[1]));
+			}catch(NumberFormatException ex){
+				material = Material.getMaterial(args[1].toUpperCase());
 			}
-		Material material = null;
-		try {
-		material = Material.getMaterial(Integer.parseInt(args[1]));
-		} catch (NumberFormatException e) {
-		material = Material.getMaterial(args[1].toUpperCase());
-		}
-		Player target = Bukkit.getPlayer(args[0]);
-		if(target != null){
-		if(cs.hasPermission("basic.give")){
-		if(args.length !=0){
-		if(material !=null){
-		if(args.length == 2){
-			ItemStack item = new ItemStack(material, 1);
-			target.getInventory().addItem(item);
-			target.sendMessage(ChatColor.AQUA + "You have been recieved a gift from god!");
-			cs.sendMessage(ChatColor.GREEN + "You gave "  + target.getDisplayName() + ChatColor.GREEN +" a "+ item.getType().name().toLowerCase().replace("_", " ") + ".");
-			return true;
-			}else{
-				if(args.length == 3){
-				Integer value = Integer.valueOf(args[2]);
-				ItemStack item = new ItemStack(material, value);
-				target.getInventory().addItem(item);
-				target.sendMessage(ChatColor.AQUA + "You have recieved a gift from god!");
-				cs.sendMessage(ChatColor.GREEN + "You gave " + target.getDisplayName() + ChatColor.GREEN + " " + value + " " + item.getType().name().toLowerCase().replace("_", " ") + "s.");
-				
-				return true;
+			if(material != null){
+				if(cs instanceof Player){
+					Player player = (Player)cs;
+						if(player.hasPermission("basic.give")){
+							Player target = Bukkit.getPlayer(args[0]);
+								if(target != null){
+									if(args.length == 2){
+										ItemStack item = new ItemStack(material, 1);
+										target.getInventory().addItem(item);
+										target.updateInventory();
+										target.sendMessage(ChatColor.AQUA + "You have received a gift from god");
+										player.sendMessage(ChatColor.AQUA + "You gave " + target.getDisplayName() + ChatColor.AQUA + " a " + material.name().replace("_", " ").toLowerCase());
+										return true;
+									}else if(args.length == 3){
+										int value = Integer.parseInt(args[2]);
+										ItemStack item = new ItemStack(material, value);
+										target.getInventory().addItem(item);
+										target.updateInventory();
+										target.sendMessage(ChatColor.AQUA + "You have received a gift from god");
+										player.sendMessage(ChatColor.AQUA + "You gave " + target.getDisplayName() + ChatColor.AQUA + value + material.name().replace("_", " ").toLowerCase() + "s");
+										return true;
+									}else if(args.length == 4){
+										int value = Integer.parseInt(args[2]);
+										short data = Short.parseShort(args[3]);
+										ItemStack item = new ItemStack(material, value, data);
+										target.getInventory().addItem(item);
+										target.updateInventory();
+										target.sendMessage(ChatColor.AQUA + "You have received a gift from god");
+										player.sendMessage(ChatColor.AQUA + "You gave " + target.getDisplayName() + ChatColor.AQUA + value + material.name().replace("_", " ").toLowerCase() + "s");
+										return true;
+									}
+								}
+						}
 				}else{
-					if(args.length == 4){
-						Integer value = Integer.valueOf(args[2]);
-						short data = Short.parseShort(args[3]);
-						ItemStack item = new ItemStack(material, value, data);
-						target.getInventory().addItem(item);
-						target.sendMessage(ChatColor.AQUA + "You have recieved a gift from god!");
-						cs.sendMessage(ChatColor.GREEN + "You gave " + target.getDisplayName() + ChatColor.GREEN + " " + value + " " + item.getType().name().toLowerCase().replace("_", " ") + "s.");
+					Player target = Bukkit.getPlayer(args[0]);
+					if(target != null){
+						if(args.length == 2){
+							ItemStack item = new ItemStack(material, 1);
+							target.getInventory().addItem(item);
+							target.updateInventory();
+							target.sendMessage(ChatColor.AQUA + "You have received a gift from god");
+							cs.sendMessage(ChatColor.AQUA + "You gave " + target.getDisplayName() + ChatColor.AQUA + " a " + material.name().replace("_", " ").toLowerCase());
+							return true;
+						}else if(args.length == 3){
+							int value = Integer.parseInt(args[2]);
+							ItemStack item = new ItemStack(material, value);
+							target.getInventory().addItem(item);
+							target.updateInventory();
+							target.sendMessage(ChatColor.AQUA + "You have received a gift from god");
+							cs.sendMessage(ChatColor.AQUA + "You gave " + target.getDisplayName() + ChatColor.AQUA + value + material.name().replace("_", " ").toLowerCase() + "s");
+							return true;
+						}else if(args.length == 4){
+							int value = Integer.parseInt(args[2]);
+							short data = Short.parseShort(args[3]);
+							ItemStack item = new ItemStack(material, value, data);
+							target.getInventory().addItem(item);
+							target.updateInventory();
+							target.sendMessage(ChatColor.AQUA + "You have received a gift from god");
+							cs.sendMessage(ChatColor.AQUA + "You gave " + target.getDisplayName() + ChatColor.AQUA + value + material.name().replace("_", " ").toLowerCase() + "s");
+							return true;
+						}
 					}
 				}
 			}
 		}
+			return false;
 	}
 }
-			}else{
-				cs.sendMessage(ChatColor.RED + "Invalid player");
-				return true;
-			}
-			}
-			return false;
-		}
-		}

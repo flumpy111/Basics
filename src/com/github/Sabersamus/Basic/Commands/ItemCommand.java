@@ -31,7 +31,7 @@ public class ItemCommand implements CommandExecutor{
 			} catch (NumberFormatException e) {
 			material = Material.getMaterial(args[0].toUpperCase());
 			}
-				if (material == null) {
+				if (material == null){
 					player.sendMessage(ChatColor.RED + "Invalid item name");
 				return true;
 			}else{
@@ -45,15 +45,23 @@ public class ItemCommand implements CommandExecutor{
 				Integer value = Integer.valueOf(args[1]);
 				ItemStack item = new ItemStack(material, value);
 				player.getInventory().addItem(item);
+				if(value == 1){
+					player.sendMessage(ChatColor.BLUE + "You have gotten " + value + " " + material.name().toLowerCase().replace("_", " "));
+				}else{
 				player.sendMessage(ChatColor.BLUE + "You have gotten " + value + " " + material.name().toLowerCase().replace("_", " ") + "s");
-				return true;
+			}
+			return true;
 		}else{
 			if(args.length == 3){
 				Integer value = Integer.valueOf(args[1]);
 				short data = Short.parseShort(args[2]);
 				ItemStack item = new ItemStack(material, value, data);
 				player.getInventory().addItem(item);
+				if(value == 1){
+					player.sendMessage(ChatColor.BLUE + "You have gotten " + value + " " + material.name().toLowerCase().replace("_", " "));
+				}else{
 				player.sendMessage(ChatColor.BLUE + "You have gotten " + value + " " + material.name().toLowerCase().replace("_", " ") + "s");
+				}
 				return true;
 			}else{
 				return false;
