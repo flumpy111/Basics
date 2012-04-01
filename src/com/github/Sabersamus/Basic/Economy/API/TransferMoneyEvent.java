@@ -41,6 +41,9 @@ public class TransferMoneyEvent extends PlayerEvent implements Cancellable
 		return economy.getTransferedAmount();
 	}
 	
-	
+	public void setAmountTransferred(int amount)
+	{
+		economy.setTransferredAmount(amount);
+	}
 
 }
