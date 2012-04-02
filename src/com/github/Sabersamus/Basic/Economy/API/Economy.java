@@ -2,6 +2,7 @@ package com.github.Sabersamus.Basic.Economy.API;
 
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
 
 import com.github.Sabersamus.Basic.Basic;
 import com.github.Sabersamus.Basic.EconomyInfo;
@@ -16,8 +17,14 @@ public class Economy
 		plugin = instance;
 	}
 	
+	public Economy()
+	{
+		
+	}
+	
 	private boolean hasEnough;
-	private int transferedMoney = 0;
+	protected int transferedMoney = 0;
+	protected Player player;
 	
 	public boolean hasEnough(){
 		if(hasEnough){
@@ -63,6 +70,9 @@ public class Economy
 	 * @param value - the amount of money to be transferred
 	 */
 	public void transferMoney(Player givingPlayer, Player receivingPlayer, int value){
+		TransferMoneyEvent event = new TransferMoneyEvent();
+		PluginManager pm = plugin.getServer().getPluginManager();
+		this.player = givingPlayer;
 		EconomyInfo info = plugin.getEconomyInfo();
 		if(this.transferedMoney == 0){
 		this.transferedMoney = value;
@@ -81,6 +91,7 @@ public class Economy
 			this.subtractMoney(givingPlayer, value);
 			this.addMoney(receivingPlayer, value);
 		}
+		pm.callEvent(event);
 	}
 	
 	/**
@@ -91,6 +102,7 @@ public class Economy
 	 */
 	public void transferMoney(Player givingPlayer, OfflinePlayer receivingPlayer, int amount)
 	{
+		this.player = givingPlayer;
 		EconomyInfo info = plugin.getEconomyInfo();
 			if(this.transferedMoney == 0)
 			{
@@ -137,6 +149,7 @@ public class Economy
 	 */
 	public void addMoney(Player player, int amount){
 		EconomyInfo info = plugin.getEconomyInfo();
+		this.player = player;
 		if(this.transferedMoney == 0){
 		this.transferedMoney = amount;
 		if(info.getMoney().contains(player.getName())){
@@ -177,6 +190,7 @@ public class Economy
 	 * @param amount - the money to be removed, can not make a players balance less than 0
 	 */
 	public void subtractMoney(Player player, int amount){
+		this.player = player;
 		EconomyInfo settings = plugin.getEconomyInfo();
 		if(this.transferedMoney == 0){
 		this.transferedMoney = amount;
@@ -226,6 +240,7 @@ public class Economy
 	 * @param amount - the amount to be set, can not be less than 0
 	 */
 	public void setBalance(Player player, int amount){
+		this.player = player;
 		EconomyInfo settings = plugin.getEconomyInfo();
 		if(amount < 0){
 			return;

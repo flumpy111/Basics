@@ -46,6 +46,7 @@ import com.github.Sabersamus.Basic.Listeners.CompassListener;
 import com.github.Sabersamus.Basic.Listeners.DropsListener;
 import com.github.Sabersamus.Basic.Listeners.GodModeListener;
 import com.github.Sabersamus.Basic.Listeners.SignColorListener;
+import com.github.Sabersamus.Basic.Listeners.Test;
 
 public class Basic extends JavaPlugin {
 	
@@ -77,6 +78,7 @@ public void onEnable() {
 				pm.registerEvents(this.drops, this);
 				pm.registerEvents(this.mlist, this);
 				pm.registerEvents(this.signs, this);
+				pm.registerEvents(new Test(this), this);
 	getWarpInfo().loadWarps();
 	getPlayerInfo().loadPlayers();
 	getBansInfo().loadBans();
