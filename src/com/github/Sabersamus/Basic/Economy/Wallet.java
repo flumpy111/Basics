@@ -62,10 +62,6 @@ public class Wallet implements CommandExecutor
 											return true;
 								}
 										eco.transferMoney(player, target, value);
-										String giveMessage = message.getGiveMessage().replaceAll("(&([a-fk0-9]))", "\u00A7$2");
-										String getMessage = message.getReceiveMessage().replaceAll("(&([a-fk0-9]))", "\u00A7$2");
-										player.sendMessage(giveMessage.replace("%t", target.getDisplayName()).replace("%money", String.valueOf(value)).replace("%name", mName));
-										target.sendMessage(getMessage.replace("%p", player.getDisplayName()).replace("%money", String.valueOf(value)).replace("%name", mName));
 										return true;
 								}
 							}

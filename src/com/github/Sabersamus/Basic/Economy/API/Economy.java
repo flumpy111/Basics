@@ -1,5 +1,6 @@
 package com.github.Sabersamus.Basic.Economy.API;
 
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
@@ -24,7 +25,7 @@ public class Economy
 	
 	private boolean hasEnough;
 	protected int transferedMoney = 0;
-	protected Player player;
+	private Player player;
 	
 	public boolean hasEnough(){
 		if(hasEnough){
@@ -70,18 +71,27 @@ public class Economy
 	 * @param value - the amount of money to be transferred
 	 */
 	public void transferMoney(Player givingPlayer, Player receivingPlayer, int value){
-		TransferMoneyEvent event = new TransferMoneyEvent();
+		TransferMoneyEvent event = new TransferMoneyEvent(plugin);
+		String mName = plugin.getSettings().getSettings().getString("Economy.name");
 		PluginManager pm = plugin.getServer().getPluginManager();
-		this.player = givingPlayer;
+		event.setPlayer(givingPlayer);
+		event.setAmountTransferred(value);
+		pm.callEvent(event);
+		if(event.isCancelled()){
+			event.getPlayer().sendMessage(ChatColor.RED + "Your last transaction has been cancelled");
+			return;
+		}
 		EconomyInfo info = plugin.getEconomyInfo();
 		if(this.transferedMoney == 0){
-		this.transferedMoney = value;
+		this.setTransferredAmount(value);
 			if(givingPlayer == null || receivingPlayer == null)return;
 			if(info.getMoney().getInt(givingPlayer.getName() + ".Balance") - value < 0){
 				return;
 			}
 			this.subtractMoney(givingPlayer, value);
 			this.addMoney(receivingPlayer, value);
+			givingPlayer.sendMessage(event.getGiveMoneyMessage().replace("%t", receivingPlayer.getDisplayName()).replace("%money", String.valueOf(value)).replace("%name", mName));
+			receivingPlayer.sendMessage(event.getGetMoneyMessage().replace("%p", givingPlayer.getDisplayName()).replace("%money", String.valueOf(value)).replace("%name", mName));
 		}else{
 			value = this.transferedMoney;
 			if(givingPlayer == null || receivingPlayer == null)return;
@@ -90,8 +100,9 @@ public class Economy
 			}
 			this.subtractMoney(givingPlayer, value);
 			this.addMoney(receivingPlayer, value);
+			givingPlayer.sendMessage(event.getGiveMoneyMessage().replace("%t", receivingPlayer.getDisplayName()).replace("%money", String.valueOf(value)).replace("%name", mName));
+			receivingPlayer.sendMessage(event.getGetMoneyMessage().replace("%p", givingPlayer.getDisplayName()).replace("%money", String.valueOf(value)).replace("%name", mName));
 		}
-		pm.callEvent(event);
 	}
 	
 	/**
@@ -135,11 +146,7 @@ public class Economy
 	 */
 	public int getTransferedAmount()
 	{
-		if(this.transferedMoney > 0)
-		{
 		return this.transferedMoney;
-		}
-		return 0;
 	}
 	
 	/**
@@ -263,5 +270,10 @@ public class Economy
 		info.getMoney().set(player.getName() + ".Balance", amount);
 		info.saveMoney();
 		this.transferedMoney = amount;
+	}
+	
+	public Player getPlayer()
+	{
+		return this.player;
 	}
 }

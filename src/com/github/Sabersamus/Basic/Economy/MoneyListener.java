@@ -30,7 +30,6 @@ public class MoneyListener implements Listener{
 		String economyMessage = manager.getEconomyMessages().getCreateMessage();
 		Player player = event.getPlayer();
 		String name = player.getName();
-		Economy api = plugin.getEconomyAPI();
 		String mName = settings.getSettings().getString("Economy.name");
 		if(settings.getSettings().getBoolean("Economy.enabled") == true){
 		int amount = settings.getSettings().getInt("Economy.default amount");
@@ -39,7 +38,7 @@ public class MoneyListener implements Listener{
 			player.sendMessage(economyMessage.replace("%money", String.valueOf(amount)).replace("%name", mName));
 			}else{
 				if(manager.getShowBalanceOnJoin()){
-					player.sendMessage(manager.getEconomyMessages().getCheckMessage().replace("%money", String.valueOf(api.getBalance(player))).replace("%name", mName));
+					player.sendMessage(manager.getEconomyMessages().getCheckMessage().replace("%money", String.valueOf(eco.getBalance(player))).replace("%name", mName));
 				}
 			}
 		}else if(settings.getSettings().getBoolean("Economy.enabled") == false){
