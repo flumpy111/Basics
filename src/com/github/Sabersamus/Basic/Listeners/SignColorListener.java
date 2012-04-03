@@ -36,5 +36,4 @@ public class SignColorListener implements Listener
 	sign.update(true);
 		}
 	}
-	
 }

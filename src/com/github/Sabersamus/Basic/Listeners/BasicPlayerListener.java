@@ -55,14 +55,4 @@ private final VanishCommand vc = new VanishCommand(plugin);
 		Location spawn = player.getWorld().getSpawnLocation();
 			event.setRespawnLocation(spawn);
 	}
-
-	@SuppressWarnings("deprecation")
-	@EventHandler
-	public void onChange(InventoryClickEvent event){
-		Inventory inv = event.getInventory();
-		if(event.getWhoClicked().getInventory() != inv){
-			Player player = (Player) event.getWhoClicked();
-				player.updateInventory();
-		}
-	}
 }
