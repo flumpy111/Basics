@@ -49,118 +49,123 @@ import com.github.Sabersamus.Basic.Listeners.SignColorListener;
 
 public class Basic extends JavaPlugin {
 	
-private final BasicPlayerListener playerListener = new BasicPlayerListener(this);
-private final CompassListener compassListener = new CompassListener(this);
-private final GodModeListener godModeListener = new GodModeListener(this);
-private final MoneyListener mlist = new MoneyListener(this);
-private final DropsListener drops = new DropsListener(this);
-private final SignColorListener signs = new SignColorListener(this);
-
-
-@Override
-public void onDisable() {
-	getWarpInfo().saveWarps();
-	getSettings().saveSettings();
-	getPlayerInfo().savePlayers();
-	getBansInfo().saveBans();
-}
-
-
-@Override
-public void onEnable() {
-	this.registerCommands(this);
-	PluginManager pm = getServer().getPluginManager();
-				pm.registerEvents(this.playerListener, this);
-				pm.registerEvents(this.compassListener, this);
-				pm.registerEvents(this.playerListener,this);
-				pm.registerEvents(this.godModeListener, this);
-				pm.registerEvents(this.drops, this);
-				pm.registerEvents(this.mlist, this);
-				pm.registerEvents(this.signs, this);
-	getWarpInfo().loadWarps();
-	getPlayerInfo().loadPlayers();
-	getBansInfo().loadBans();
-	getEconomyInfo().loadMoney();
-	getSettings().loadSettings();
-    }
-
-private void registerCommands(Basic basic) {
-				this.getCommand("say").setExecutor(new SayCommand(this));
-				this.getCommand("kick").setExecutor(new KickCommand(this));
-				this.getCommand("fakequit").setExecutor(new FakeQuitCommand(this));
-				this.getCommand("tp").setExecutor(new TeleportCommand(this));
-				this.getCommand("summon").setExecutor(new SummonCommand(this));
-				this.getCommand("m").setExecutor(new MessageCommand(this));
-				this.getCommand("me").setExecutor(new MeCommand(this));
-				this.getCommand("disguise").setExecutor(new DisguiseCommand(this));
-				this.getCommand("blind").setExecutor(new BlindCommand(this));
-				this.getCommand("unblind").setExecutor(new BlindCommand(this));
-				this.getCommand("ride").setExecutor(new RideCommand(this));
-				this.getCommand("rideme").setExecutor(new RideMeCommand(this));
-				this.getCommand("ban").setExecutor(new BanCommand(this));
-				this.getCommand("unban").setExecutor(new BanCommand(this));
-				this.getCommand("rban").setExecutor(new BanCommand(this));
-				this.getCommand("kill").setExecutor(new KillCommand(this));
-				this.getCommand("feed").setExecutor(new FeedCommand(this));
-				this.getCommand("creative").setExecutor(new CreativeCommand(this));
-				this.getCommand("survival").setExecutor(new SurvivalCommand(this));
-				this.getCommand("boom").setExecutor(new BoomCommand(this));
-				this.getCommand("item").setExecutor(new ItemCommand(this));
-				
-				this.getCommand("clear").setExecutor(new ClearCommand(this));
-				
-				this.getCommand("give").setExecutor(new GiveCommand(this));
-				this.getCommand("spawn").setExecutor(new SpawnCommand(this));
-				this.getCommand("setspawn").setExecutor(new SpawnCommand(this));
-				this.getCommand("inv").setExecutor(new InventoryCommand(this));
-				this.getCommand("warp").setExecutor(new WarpCommand(this));
-				this.getCommand("setwarp").setExecutor(new SetWarpCommand(this));
-				this.getCommand("delwarp").setExecutor(new SetWarpCommand(this));
-				this.getCommand("warpsreload").setExecutor(new WarpReloadCommand(this));
-				this.getCommand("time").setExecutor(new TimeCommand(this));
-				this.getCommand("weather").setExecutor(new WeatherCommand(this));
-				this.getCommand("spawnmob").setExecutor(new SpawnMob(this));
-				this.getCommand("tpblock").setExecutor(new TpBlockCommand(this));
-				this.getCommand("who").setExecutor(new WhoCommand(this));
-				this.getCommand("freeze").setExecutor(new FreezeCommand(this));
-				this.getCommand("pos").setExecutor(new PositionCommand(this));
-				this.getCommand("wallet").setExecutor(new Wallet(this));
-				this.getCommand("economy").setExecutor(new ManageCommand(this));
-				this.getCommand("ecomessage").setExecutor(new ManageCommand(this));
-		}
-
-		public WarpConfig getWarpInfo(){
-			return new WarpConfig(this);
-		}
-		
-		public BanConfig getBansInfo(){
-			return new BanConfig(this);
-		}
-
-		public Settings getSettings(){
-			return new Settings(this);
-		}
-		
-
-		public EconomyInfo getEconomyInfo(){
-			return new EconomyInfo(this);
-		}
-		
-
-		public PlayerSettings getPlayerInfo(){
-			return new PlayerSettings(this);
-		}
-		
-
-		public Economy getEconomyAPI(){
-			return new Economy(this);
-		}
-		
-		public EconomyManager getEcoManager(){
-			return new EconomyManager(this);
-		}
-		
-		public Messages getMessages(){
-			return new Messages(this);
-		}
-}
+	private final BasicPlayerListener playerListener = new BasicPlayerListener(this);
+	private final CompassListener compassListener = new CompassListener(this);
+	private final GodModeListener godModeListener = new GodModeListener(this);
+	private final MoneyListener mlist = new MoneyListener(this);
+	private final DropsListener drops = new DropsListener(this);
+	private final SignColorListener signs = new SignColorListener(this);
+	
+	
+	@Override
+	public void onDisable() {
+		getWarpInfo().saveWarps();
+		getSettings().saveSettings();
+		getPlayerInfo().savePlayers();
+		getBansInfo().saveBans();
+	}
+	
+	
+	@Override
+	public void onEnable() {
+		this.registerCommands(this);
+		this.registerEvents(this);
+		getWarpInfo().loadWarps();
+		getPlayerInfo().loadPlayers();
+		getBansInfo().loadBans();
+		getEconomyInfo().loadMoney();
+		getSettings().loadSettings();
+	    }
+	
+	private void registerCommands(Basic basic) {
+					this.getCommand("say").setExecutor(new SayCommand(this));
+					this.getCommand("kick").setExecutor(new KickCommand(this));
+					this.getCommand("fakequit").setExecutor(new FakeQuitCommand(this));
+					this.getCommand("tp").setExecutor(new TeleportCommand(this));
+					this.getCommand("summon").setExecutor(new SummonCommand(this));
+					this.getCommand("m").setExecutor(new MessageCommand(this));
+					this.getCommand("me").setExecutor(new MeCommand(this));
+					this.getCommand("disguise").setExecutor(new DisguiseCommand(this));
+					this.getCommand("blind").setExecutor(new BlindCommand(this));
+					this.getCommand("unblind").setExecutor(new BlindCommand(this));
+					this.getCommand("ride").setExecutor(new RideCommand(this));
+					this.getCommand("rideme").setExecutor(new RideMeCommand(this));
+					this.getCommand("ban").setExecutor(new BanCommand(this));
+					this.getCommand("unban").setExecutor(new BanCommand(this));
+					this.getCommand("rban").setExecutor(new BanCommand(this));
+					this.getCommand("kill").setExecutor(new KillCommand(this));
+					this.getCommand("feed").setExecutor(new FeedCommand(this));
+					this.getCommand("creative").setExecutor(new CreativeCommand(this));
+					this.getCommand("survival").setExecutor(new SurvivalCommand(this));
+					this.getCommand("boom").setExecutor(new BoomCommand(this));
+					this.getCommand("item").setExecutor(new ItemCommand(this));
+					
+					this.getCommand("clear").setExecutor(new ClearCommand(this));
+					
+					this.getCommand("give").setExecutor(new GiveCommand(this));
+					this.getCommand("spawn").setExecutor(new SpawnCommand(this));
+					this.getCommand("setspawn").setExecutor(new SpawnCommand(this));
+					this.getCommand("inv").setExecutor(new InventoryCommand(this));
+					this.getCommand("warp").setExecutor(new WarpCommand(this));
+					this.getCommand("setwarp").setExecutor(new SetWarpCommand(this));
+					this.getCommand("delwarp").setExecutor(new SetWarpCommand(this));
+					this.getCommand("warpsreload").setExecutor(new WarpReloadCommand(this));
+					this.getCommand("time").setExecutor(new TimeCommand(this));
+					this.getCommand("weather").setExecutor(new WeatherCommand(this));
+					this.getCommand("spawnmob").setExecutor(new SpawnMob(this));
+					this.getCommand("tpblock").setExecutor(new TpBlockCommand(this));
+					this.getCommand("who").setExecutor(new WhoCommand(this));
+					this.getCommand("freeze").setExecutor(new FreezeCommand(this));
+					this.getCommand("pos").setExecutor(new PositionCommand(this));
+					this.getCommand("wallet").setExecutor(new Wallet(this));
+					this.getCommand("economy").setExecutor(new ManageCommand(this));
+					this.getCommand("ecomessage").setExecutor(new ManageCommand(this));
+			}
+	
+	private void registerEvents(Basic instance)
+	{
+		PluginManager pm = getServer().getPluginManager();
+		pm.registerEvents(this.playerListener, this);
+		pm.registerEvents(this.compassListener, this);
+		pm.registerEvents(this.playerListener,this);
+		pm.registerEvents(this.godModeListener, this);
+		pm.registerEvents(this.drops, this);
+		pm.registerEvents(this.mlist, this);
+		pm.registerEvents(this.signs, this);
+	}
+	
+			public WarpConfig getWarpInfo(){
+				return new WarpConfig(this);
+			}
+			
+			public BanConfig getBansInfo(){
+				return new BanConfig(this);
+			}
+	
+			public Settings getSettings(){
+				return new Settings(this);
+			}
+			
+	
+			public EconomyInfo getEconomyInfo(){
+				return new EconomyInfo(this);
+			}
+			
+	
+			public PlayerSettings getPlayerInfo(){
+				return new PlayerSettings(this);
+			}
+			
+	
+			public Economy getEconomyAPI(){
+				return new Economy(this);
+			}
+			
+			public EconomyManager getEcoManager(){
+				return new EconomyManager(this);
+			}
+			
+			public Messages getMessages(){
+				return new Messages(this);
+			}
+	}
