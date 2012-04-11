@@ -1,59 +1,52 @@
-package com.github.Sabersamus.Basic.Economy.API;
+package com.github.Sabersamus.Basic.Economy.Events;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
-import org.bukkit.event.Event;
-import org.bukkit.event.HandlerList;
 
 import com.github.Sabersamus.Basic.Basic;
+import com.github.Sabersamus.Basic.Economy.API.EconomyMessages;
 
-public class TransferMoneyEvent extends Event implements Cancellable
+public class TransferMoneyEvent extends MoneyEvent implements Cancellable
 {
 	public static Basic plugin;
-	private Economy economy = new Economy();
-	public TransferMoneyEvent(Basic instance)
+	public TransferMoneyEvent(Basic instance, Player player)
 	{
-		plugin = instance;
+		super(instance, player);
 	}
 	
-	private static final HandlerList handlers = new HandlerList();
 	private EconomyMessages messages = new EconomyMessages();
 	private String getMessage = messages.getReceiveMessage();
 	private String giveMessage = messages.getGiveMessage();
 	private Player player;
+	private Player receiver;
 	private boolean cancelled = false;
-	private int amount = economy.transferedMoney;
+	private int amount = 0;
 	
-	@Override
-	public HandlerList getHandlers()
-	{
-		return handlers;
-	}
-
-	public static HandlerList getHandlerList()
-	{
-		return handlers;
-	}
 	
-	public int getAmountTransferred()
+	public int getAmount()
 	{
 		return this.amount;
 	}
 	
-	/** @deprecated */
-	public void setAmountTransferred(int amount)
+	public void setAmount(int amount)
 	{
 		this.amount = amount;
 	}
 	
+	public Player getReceiver()
+	{
+		return this.receiver;
+	}
+	
+	public void setReceiver(Player player)
+	{
+		this.receiver = player;
+	}
+	
+	@Override
 	public Player getPlayer()
 	{
 		return this.player;
-	}
-	
-	protected void setPlayer(Player player)
-	{
-		this.player = player;
 	}
 	
 	@Override

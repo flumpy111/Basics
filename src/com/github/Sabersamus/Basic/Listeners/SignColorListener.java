@@ -16,7 +16,7 @@ public class SignColorListener implements Listener
 		plugin = instance;
 	}
 	
-	@EventHandler(priority = EventPriority.LOW)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onSignChange(SignChangeEvent event){
 	BlockState state = event.getBlock().getState();
 	if(state instanceof Sign) {

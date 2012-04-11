@@ -33,6 +33,7 @@ public class CompassListener implements Listener {
     	block = player.getTargetBlock(null, 1000);
     	loc = block.getLocation();
     	action = ev.getAction();
+    	if(!player.hasPermission("basic.compass.use"))return;
     	if(action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.LEFT_CLICK_BLOCK))return;
     	item = player.getItemInHand();
     	if(item.getType() == Material.COMPASS){

@@ -123,6 +123,7 @@ commands:
             /<command> [pay/give] <player> <amount>
     economy:
         description: manage the economy's settings in-game
+        permission: basic.economy.manage
         aliases: eco
         usage: |
             /<command> enable
