@@ -17,6 +17,7 @@ public class EconomyMessages
 		
 	}
 	
+	
 	public void setCreateMessage(String message){
 		Settings config = plugin.getSettings();
 		config.getSettings().set("Messages.Economy.account-create-message", message);

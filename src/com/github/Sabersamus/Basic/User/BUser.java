@@ -17,6 +17,6 @@ public interface BUser extends Player
 	
 	public boolean getTeleportBlock();
 	
-	public void setTeleportBlock();
+	public void setTeleportBlock(boolean arg0);
 	
 }

@@ -77,6 +77,16 @@ public class EconomyManager
 	}
 	
 	/**
+	 * Gets the defualt amount set in the config.yml
+	 * @return
+	 */
+	public int getDefaltAmount()
+	{
+		Settings config = plugin.getSettings();
+		return config.getSettings().getInt("Economy.defualt amount");
+	}
+	
+	/**
 	 * Gets the economy messages
 	 * @return EconomyMessages
 	 */
