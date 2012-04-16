@@ -19,4 +19,5 @@ public interface BUser extends Player
 	
 	public void setTeleportBlock(boolean arg0);
 	
+	public User getUser();
 }

@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Achievement;
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.EntityEffect;
 import org.bukkit.GameMode;
@@ -56,7 +57,6 @@ public class User implements BUser
 	{
 		this.player = player; plugin = instance;
 	}
-	
 	
 	@Override
 	public void awardAchievement(Achievement arg0)
@@ -1007,7 +1007,7 @@ public class User implements BUser
 	@Override
 	public boolean isOp() 
 	{
-		return player.isOp();
+		return plugin.getServer().getOperators().contains(Bukkit.getPlayer(new User(plugin, player).getName()));
 	}
 
 	@Override
@@ -1074,6 +1074,12 @@ public class User implements BUser
 	public Player getPlayer() 
 	{
 		return player.getPlayer();
+	}
+	
+	@Override
+	public User getUser()
+	{
+		return this;
 	}
 
 	@Override
