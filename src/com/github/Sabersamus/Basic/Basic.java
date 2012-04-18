@@ -55,7 +55,6 @@ public class Basic extends JavaPlugin {
 	private final DropsListener drops = new DropsListener(this);
 	private final SignColorListener signs = new SignColorListener(this);
 	
-	
 	@Override
 	public void onDisable() {
 		getWarpInfo().saveWarps();
