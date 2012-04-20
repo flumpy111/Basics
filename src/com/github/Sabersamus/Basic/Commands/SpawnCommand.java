@@ -17,22 +17,22 @@ public class SpawnCommand implements CommandExecutor{
 	@Override
 	public boolean onCommand(CommandSender cs, Command cmd, String aliases, String[] args) {
 	if(cmd.getName().equalsIgnoreCase("spawn") && (cs instanceof Player)){
+		Player player = (Player)cs;
 	if(args.length == 0){
-	Location spawn = ((Player)cs).getWorld().getSpawnLocation();
+	Location spawn = player.getWorld().getSpawnLocation();
 		spawn.setX(spawn.getX() + 0.5);
 		spawn.setZ(spawn.getZ() + 0.5);
-		Player player = (Player)cs;
 		player.teleport(spawn); 
-		player.sendMessage(ChatColor.AQUA + "Welome to spawn");
+		player.sendMessage(ChatColor.AQUA + "Welcome to spawn");
 		return true;
 	}
 	}else if(cmd.getName().equalsIgnoreCase("setspawn") && (cs instanceof Player)){
 			Player player = (Player)cs;
 			if(args.length == 0){
 				if(player.hasPermission("basic.setpawn")){
-				int x = (int)(player.getLocation().getX());
-				int y = (int)(player.getLocation().getY());
-				int z = (int) (player.getLocation().getZ());
+				int x = (int)(player.getLocation().getBlockX());
+				int y = (int)(player.getLocation().getBlockY());
+				int z = (int) (player.getLocation().getBlockZ());
 				player.getWorld().setSpawnLocation(x, y, z);
 				player.sendMessage(ChatColor.AQUA + "Spawn is set!");
 				return true;

@@ -24,9 +24,9 @@ public class SetWarpCommand implements CommandExecutor{
 			if(cs instanceof Player){
 				Player player = (Player)cs;
 				Location loc = player.getLocation();
-				int x = (int)loc.getX();
-				int y = (int)loc.getY();
-				int z = (int)loc.getZ();
+				int x = (int)loc.getBlockX();
+				int y = (int)loc.getBlockY();
+				int z = (int)loc.getBlockZ();
 				float yaw = loc.getYaw();
 				float pitch = loc.getPitch();
 				String world = loc.getWorld().getName();
