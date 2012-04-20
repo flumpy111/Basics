@@ -1,6 +1,6 @@
 name: Basic
 main: com.github.Sabersamus.Basic.Basic
-version: 0.6
+version: 0.7
 author: Sabersamus
 description: A simple plugin for managing your server
 devurl: dev.bukkit.org/server-mods/basiccontrol
@@ -121,6 +121,22 @@ commands:
             /<command> [check/balance] - tells you your balance
             /<command> tell - tells the whole server your balance
             /<command> [pay/give] <player> <amount>
+    economy:
+        description: manage the economy's settings in-game
+        permission: basic.economy.manage
+        aliases: eco
+        usage: |
+            /<command> enable
+            /<command> disable
+            /<command> rename [name]
+            /<command> reload
+    ecomessage:
+        description: manage the economy messages
+        permission: basic.economy.manage
+        aliases: ecm
+        usage: |
+            /<command> [check/tell/create/give/disabled/get/notenough] (message)
+            /if you dont enter a message, it sends you the message
 permissions:
     basic.*:
         description: allows access to all commands
@@ -160,3 +176,4 @@ permissions:
             basic.god: true
             basic.compass.use: true
             basic.vanish: true
+            basic.economy.manage: true

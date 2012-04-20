@@ -8,8 +8,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.github.Sabersamus.Basic.Basic;
-import com.github.Sabersamus.Basic.EcoConfig;
-import com.github.Sabersamus.Basic.Economy.Economy;
+import com.github.Sabersamus.Basic.Settings;
+import com.github.Sabersamus.Basic.Economy.API.Economy;
 
 public class WhoCommand implements CommandExecutor{
 	public static Basic plugin;
@@ -20,7 +20,7 @@ public class WhoCommand implements CommandExecutor{
 	public boolean onCommand(CommandSender cs, Command cmd, String aliases, String[] args) {
 		if(cmd.getName().equalsIgnoreCase("who")){
 			Economy api = plugin.getEconomyAPI();
-			EcoConfig config = plugin.getSettings();
+			Settings config = plugin.getSettings();
 			if(cs instanceof  Player){
 				Player player = (Player)cs;
 					if(args.length == 0){
@@ -42,9 +42,9 @@ public class WhoCommand implements CommandExecutor{
 							Player target = Bukkit.getPlayer(args[0]);
 								if(target != null){
 									int x = api.getBalance(target);
-									String mName = config.getConf().getString("Economy.name");
+									String mName = config.getSettings().getString("Economy.name");
 									player.sendMessage(ChatColor.DARK_PURPLE + "Information on: " + target.getDisplayName());
-									if(config.getConf().getBoolean("Economy.enabled") == true){
+									if(config.getSettings().getBoolean("Economy.enabled") == true){
 										player.sendMessage(ChatColor.DARK_AQUA + mName + ": " + ChatColor.WHITE + x);
 										player.sendMessage(ChatColor.DARK_AQUA + "IP: " + ChatColor.WHITE + target.getAddress().getHostName());
 										player.sendMessage(ChatColor.DARK_AQUA + "World: " + ChatColor.WHITE + target.getWorld().getName());

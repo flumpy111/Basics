@@ -1,6 +1,5 @@
 package com.github.Sabersamus.Basic.Listeners;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -34,19 +33,26 @@ public class CompassListener implements Listener {
     	block = player.getTargetBlock(null, 1000);
     	loc = block.getLocation();
     	action = ev.getAction();
+    	if(!player.hasPermission("basic.compass.use"))return;
+    	if(action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.LEFT_CLICK_BLOCK))return;
     	item = player.getItemInHand();
     	if(item.getType() == Material.COMPASS){
-    	if(action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK ){
+    	if(action == Action.RIGHT_CLICK_BLOCK){
     	if(loc != null){
-    		
     		pitch = player.getLocation().getPitch();
     		yaw = player.getLocation().getYaw();
     		loc.setPitch(pitch);
     		loc.setYaw(yaw);
     			player.teleport(loc.add(0.5, 1, 0.5), TeleportCause.PLUGIN);
-    			player.sendMessage(ChatColor.AQUA + "You have teleported using a compass");
     			ev.setCancelled(true);
     			}
+    		}else if(action.equals(Action.RIGHT_CLICK_AIR)){
+    			Block block = player.getTargetBlock(null, 1000);
+    				loc = block.getLocation().add(0.5 , 1 , 0.5 );
+    					loc.setPitch(player.getLocation().getPitch());
+    						loc.setYaw(player.getLocation().getYaw());
+    						player.teleport(loc, TeleportCause.PLUGIN);
+    					ev.setCancelled(true);
     		}
     	}
     }

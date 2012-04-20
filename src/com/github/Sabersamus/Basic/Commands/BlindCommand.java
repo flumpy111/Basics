@@ -21,7 +21,7 @@ public class BlindCommand implements CommandExecutor {
 			if(cs instanceof Player){
 				Player player = (Player)cs;
 		if(player.hasPermission("basic.blind") || player.isOp()){
-		if(args.length ==1){
+		if(args.length == 1){
 			Player target = Bukkit.getPlayer(args[0]);
 			if(target != null){
 			PotionEffectType effect = PotionEffectType.BLINDNESS;
@@ -43,7 +43,6 @@ public class BlindCommand implements CommandExecutor {
 						Player target = Bukkit.getPlayer(args[0]);
 						if(target != null){
 						target.removePotionEffect(PotionEffectType.BLINDNESS);
-						player.sendMessage("test");
 						return true;
 						}
 					}

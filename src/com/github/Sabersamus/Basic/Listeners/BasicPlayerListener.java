@@ -17,13 +17,14 @@ import com.github.Sabersamus.Basic.BanConfig;
 import com.github.Sabersamus.Basic.Basic;
 import com.github.Sabersamus.Basic.Commands.VanishCommand;
 
+@SuppressWarnings("unused")
 public class BasicPlayerListener implements Listener {
 public static Basic plugin;
 public BasicPlayerListener(Basic instance) {
 plugin = instance;
 }
 
-private final VanishCommand vc = new VanishCommand(plugin);
+//private final VanishCommand vc = new VanishCommand(plugin);
 
 @EventHandler
 	public void onLog(PlayerLoginEvent ev){
@@ -35,34 +36,16 @@ private final VanishCommand vc = new VanishCommand(plugin);
 			}
 }
 
-@EventHandler
-	public void onJoin(PlayerJoinEvent ev){
-	Player player = ev.getPlayer();
-	Player[] a = Bukkit.getOnlinePlayers();
-	for(Player b : a){
-		if(vc.vanish.containsKey(b)){
-			if(!player.hasPermission("basic.vanish")){
-			player.hidePlayer(b);
-			}
-		}
-	}
-	
-}
-
-	@EventHandler
-	public void onDeath(PlayerRespawnEvent event){
-		Player player = event.getPlayer();
-		Location spawn = player.getWorld().getSpawnLocation();
-			event.setRespawnLocation(spawn);
-	}
-
-	@SuppressWarnings("deprecation")
-	@EventHandler
-	public void onChange(InventoryClickEvent event){
-		Inventory inv = event.getInventory();
-		if(event.getWhoClicked().getInventory() != inv){
-			Player player = (Player) event.getWhoClicked();
-				player.updateInventory();
-		}
-	}
+//	@EventHandler
+//	public void onJoin(PlayerJoinEvent ev){
+//	Player player = ev.getPlayer();
+//	Player[] a = Bukkit.getOnlinePlayers();
+//	for(Player b : a){
+//		if(vc.vanish.containsKey(b)){
+//			if(!player.hasPermission("basic.vanish")){
+//			player.hidePlayer(b);
+//				}
+//			}
+//		}
+//	}
 }

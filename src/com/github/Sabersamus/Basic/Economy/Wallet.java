@@ -1,14 +1,15 @@
 package com.github.Sabersamus.Basic.Economy;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.github.Sabersamus.Basic.Basic;
-import com.github.Sabersamus.Basic.EcoConfig;
+import com.github.Sabersamus.Basic.Settings;
+import com.github.Sabersamus.Basic.Economy.API.Economy;
+import com.github.Sabersamus.Basic.Economy.API.EconomyMessages;
 
 public class Wallet implements CommandExecutor
 {
@@ -22,25 +23,29 @@ public class Wallet implements CommandExecutor
 	public boolean onCommand(CommandSender cs, Command cmd, String label, String[] args) {
 		if(cmd.getName().equalsIgnoreCase("wallet")){
 			Economy eco = plugin.getEconomyAPI();
-			EcoConfig settings = plugin.getSettings();
-			String mName = settings.getConf().getString("Economy.name");
+			Settings settings = plugin.getSettings();
+			EconomyMessages message = plugin.getEcoManager().getEconomyMessages();
+			String mName = settings.getSettings().getString("Economy.name");
 				if(cs instanceof Player){
 					Player player = (Player)cs;
-					if(settings.getConf().getBoolean("Economy.enabled") == true){
+					if(settings.getSettings().getBoolean("Economy.enabled") == true){
 						if(args.length == 0){
 							int money = eco.getBalance(player);
-							player.sendMessage(ChatColor.DARK_AQUA + "Your balance is " + ChatColor.GOLD + money + ChatColor.DARK_AQUA + " " + mName);
+							String checkMessage = message.getCheckMessage().replaceAll("(&([a-fk0-9]))", "\u00A7$2");
+							player.sendMessage(checkMessage.replace("%name", mName).replace("%money", String.valueOf(money)));
 							return true;
 						}else{
 							String usage = String.valueOf(args[0]);
 							if(args.length == 1){
 								if(usage.equalsIgnoreCase("balance") || usage.equalsIgnoreCase("check")){
 									int money = eco.getBalance(player);
-									player.sendMessage(ChatColor.DARK_AQUA + "Your balance is " + ChatColor.GOLD + money + ChatColor.DARK_AQUA + " " + mName);
+									String checkMessage = message.getCheckMessage().replaceAll("(&([a-fk0-9]))", "\u00A7$2");
+									player.sendMessage(checkMessage.replace("%name", mName).replace("%money", String.valueOf(money)));
 									return true;
 								}else if(usage.equalsIgnoreCase("tell")){
+									String tellMessage = message.getTellMessage().replaceAll("(&([a-fk0-9]))", "\u00A7$2");
 									int money = eco.getBalance(player);
-									player.getServer().broadcastMessage(player.getDisplayName() + ChatColor.AQUA  + " has " + ChatColor.GOLD + money + ChatColor.AQUA + " " + mName);
+									player.getServer().broadcastMessage(tellMessage.replace("%p", player.getDisplayName()).replace("%name", mName).replace("%money", String.valueOf(money)));
 									return true;
 						}
 					}else if(args.length == 3){
@@ -52,20 +57,19 @@ public class Wallet implements CommandExecutor
 										return true;
 									}
 										if(eco.getBalance(player) - value < 0){
-											player.sendMessage(ChatColor.RED + "You dont have that much money!");
+											String notEnough = message.getInvalidMoneyMessage().replaceAll("(&([a-fk0-9]))", "\u00A7$2");
+											player.sendMessage(notEnough.replace("%name", mName));
 											return true;
 								}
-										eco.addMoney(target, value);
-										eco.subtractMoney(player, value);
-										player.sendMessage(ChatColor.AQUA + "You gave " + target.getDisplayName() + " " + ChatColor.GOLD + value + ChatColor.AQUA + " " + mName);
-										target.sendMessage(player.getDisplayName() + ChatColor.AQUA + " gave you " + ChatColor.GOLD + value + ChatColor.AQUA + " " + mName);
+										eco.transferMoney(player, target, value);
 										return true;
 								}
 							}
 						}
 					}
-				}else if(settings.getConf().getBoolean("Economy.enabled") == false){
-					player.sendMessage(ChatColor.RED + "Economy is disabled");
+				}else if(settings.getSettings().getBoolean("Economy.enabled") == false){
+					String disabledMessage = message.getDisabledMessage().replaceAll("(&([a-fk0-9]))", "\u00A7$2");
+					player.sendMessage(disabledMessage);
 						return true;
 				}
 			}
